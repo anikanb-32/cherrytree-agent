@@ -1,5 +1,7 @@
 # cherrytree-agent-dummy
 
+**Live (new-product):** [Open the prototype](https://cdn.jsdelivr.net/gh/anikanb-32/cherrytree-agent@main/new-product/index.html)
+
 Scratch project for trying out agent ideas. Nothing here is wired to Firebase,
 Clerk or any real data — the interview is a front-end mock: the agent works
 through a fixed list of questions and nothing you type is stored.

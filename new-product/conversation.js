@@ -12,6 +12,7 @@ const CLARIFY =
 
 const NOTES = {
   'How the founders met': {
+    probe: 'Was one of you already building something when the other showed up?',
     why: 'I ask because the origin story is the first thing people rewrite later. “We were equals from day one” and “I brought them in” are two different companies, and both versions tend to show up once equity is on the table.',
     typical:
       'College, a job, a hackathon, a friend-of-a-friend — it doesn’t matter which. What matters is whether one of you was already in motion when the other arrived.',
@@ -22,6 +23,7 @@ const NOTES = {
     ack: reflectMeet,
   },
   'Origin of the idea': {
+    probe: 'Who had the idea first — or did you arrive at it together?',
     why: 'Who brought the idea quietly becomes an equity argument. When one person conceived it and the other joined to build, they almost always remember the split of credit differently a year on.',
     typical:
       'One founder had the insight, or you arrived at it together. Both are fine — the agreement just needs to know which, because it colors IP and how you talk about contribution.',
@@ -32,6 +34,7 @@ const NOTES = {
     ack: reflectIdea,
   },
   'How the work is divided today': {
+    probe: 'What did each of you actually do this week?',
     why: 'Roles on paper drift from roles in practice. The agreement should describe the real one, or you’ll be arguing about a job description neither of you is doing.',
     typical:
       'One of you is product or engineering, the other is customer or ops — or you’re both still doing everything. Early on, “everything” is honest; it just shouldn’t stay unnamed.',
@@ -42,6 +45,7 @@ const NOTES = {
     ack: reflectWork,
   },
   'Commitment level': {
+    probe: 'Are you both full-time, or is there a date when that changes?',
     why: 'Uneven commitment is the single biggest source of resentment I see. One founder quits their job, the other keeps consulting “for a few more months,” and nobody renegotiates.',
     typical:
       'Both full-time is the clean version. One full-time and one part-time can work if you write down when the second person joins — and what happens to equity if they don’t.',
@@ -52,6 +56,7 @@ const NOTES = {
     ack: reflectCommit,
   },
   'Business of the company': {
+    probe: 'In one sentence, who is this for and what does it do?',
     why: 'The business description is what IP assignment and any non-compete point back to. Too vague and it protects nothing; too narrow and it misses whatever you pivot into.',
     typical:
       'A sentence: who it’s for and what it does. “A tool that helps independent pharmacies manage inventory” is enough. “A revolutionary platform” is not.',
@@ -63,6 +68,7 @@ const NOTES = {
     ack: (text) => `I’ll draft it as ${clip(text, 70)}.`,
   },
   'State of incorporation': {
+    probe: 'Delaware, somewhere else, or not incorporated yet?',
     why: 'This decides whose corporate law governs everything else we’re about to write down — equity, vesting, fiduciary duties.',
     typical:
       'Delaware if you think you’ll raise. California if you’re staying small or bootstrapped and already live there. “Not yet” is fine, but equity and IP can’t really bind anyone until there’s an entity.',
@@ -75,6 +81,7 @@ const NOTES = {
     ack: reflectEntity,
   },
   'Basis for the split': {
+    probe: 'What’s the reason for the split — not just the numbers?',
     why: 'This is the section that ends friendships. I’m not going to tell you the number. I want the reasoning written down, because “we agreed it was fair” is not something either of you can point at in two years.',
     typical:
       'Even split is common and signals trust. Contribution-based is fairer on paper and harder to reopen. Leaving it open is fine only if you also say how and by when you’ll decide.',
@@ -85,6 +92,7 @@ const NOTES = {
     ack: reflectSplit,
   },
   'Shares on early departure': {
+    probe: 'If someone leaves in year one, what happens to their shares?',
     why: 'A one-year cliff means nothing is owed if someone walks early. For whatever has vested, most agreements also let the company buy those shares back at cost. Without that, a founder who left in month fourteen still owns a piece of everything you build afterward.',
     typical:
       'Unvested shares go back to the company. Vested shares are often subject to a repurchase at the price the founder paid — usually a fraction of a cent.',
@@ -97,6 +105,7 @@ const NOTES = {
     ack: (text) => `That’s the departure rule I’ll write down: ${clip(text, 64)}.`,
   },
   'Vesting schedule': {
+    probe: 'Four years with a one-year cliff — or something else?',
     why: 'Vesting is the mechanism that makes equity track contribution over time. It protects the founder who stays at least as much as it protects the company.',
     typical:
       'Four years, one-year cliff, then monthly. That’s what investors expect and what most templates assume.',
@@ -109,6 +118,7 @@ const NOTES = {
     ack: reflectVest,
   },
   'Acceleration on acquisition': {
+    probe: 'If you’re acquired, does unvested equity finish automatically?',
     why: 'If you’re acquired holding unvested shares, an acquirer can let you go and keep that equity. Acceleration is the conversation about whether a sale finishes the vest.',
     typical:
       'Double-trigger is the common landing spot: vesting accelerates only if you’re acquired and then pushed out. Single-trigger vests everything the moment the deal closes, which acquirers dislike because they’re paying to keep the team.',
@@ -121,6 +131,7 @@ const NOTES = {
     ack: reflectAccel,
   },
   'Decisions requiring unanimity': {
+    probe: 'Which calls should require both of you?',
     why: 'This is who can decide what alone. Require unanimity on too much and you deadlock over expense reports. On too little and one of you can make an irreversible call by yourself.',
     typical:
       'The usual both-must-agree list is raising money, selling the company, taking on debt, changing the equity split, and firing a cofounder.',
@@ -133,6 +144,7 @@ const NOTES = {
     ack: (text) => `Unanimous, then: ${clip(text, 72)}.`,
   },
   'Deadlock resolution': {
+    probe: 'When you disagree on one of those, who breaks the tie?',
     why: 'You will disagree on one of the unanimous items. The process has to exist before you need it. Agreeing on a tiebreaker while you’re already stuck is close to impossible.',
     typical:
       'A named outside advisor is the usual first step. CEO-decides is faster and more honest about power. A coin flip is neutral and settles nothing about who was right.',
@@ -143,6 +155,7 @@ const NOTES = {
     ack: reflectDeadlock,
   },
   'IP assignment': {
+    probe: 'Has everything built for the company been assigned in writing?',
     why: 'Unassigned IP is one of the most common things that stalls a fundraise or an acquisition once diligence starts. “Yes” without paperwork doesn’t survive that.',
     typical:
       'Everything built for the company gets assigned to the company, in writing, including work from before you incorporated if it was for this idea.',
@@ -155,6 +168,7 @@ const NOTES = {
     ack: reflectIP,
   },
   'Pre-existing IP': {
+    probe: 'Is there anything from before the company that needs to stay yours?',
     why: 'Work from before the company isn’t automatically the company’s — not even if you built it for this idea, not even if you were the only one who touched it. It needs a formal assignment, or an explicit license if you want to keep personal ownership.',
     typical:
       'Assign what was built for this company. Keep a short excluded list for personal tools, prior projects, and anything that isn’t the business.',
@@ -327,24 +341,21 @@ function scenarioOf(text) {
   return match ? uncapitalize(match[1]) : '';
 }
 
-function followUpReply({ text, question, completed = false, answers = [] }) {
-  const notes = notesFor(question);
-  const material =
-    optionsReply(text, question) ||
-    topicReply(text, notes) ||
-    glossaryReply(text) ||
-    (completed && answers.length
-      ? `We’ve already got this section down as ${answers
-          .filter(Boolean)
-          .map((value) => clip(value, 40))
-          .join(' · ')}.`
-      : defaultReply(question, notes));
+function onlyQuestion(text) {
+  const raw = String(text || '').replace(/\s+/g, ' ').trim();
+  if (!raw) return raw;
+  const parts = raw.match(/[^.!?]+[.!?]+(?:["”')\]]+)?|[^.!?]+$/g) || [raw];
+  const bits = parts.map((part) => part.trim()).filter(Boolean);
+  const questions = bits.filter((part) => /\?\s*$/.test(part));
+  return (questions.pop() || bits.pop() || raw).trim();
+}
 
+function followUpReply({ text, question, completed = false }) {
+  const notes = notesFor(question);
   const scenario = scenarioOf(text);
-  if (scenario) {
-    return `If ${scenario}, that still belongs in this answer — ${firstSentence(material)} Write the version that’s true, not the polite one.`;
-  }
-  return material;
+  if (scenario) return `If ${scenario}, does that change the answer?`;
+  if (completed) return 'Anything else I should know here?';
+  return notes?.probe || 'What else should I know about this?';
 }
 
 function reflectMeet(text) {
@@ -447,9 +458,7 @@ function bridge(text, question) {
 }
 
 function nextLead(text, question, next) {
-  const ack = bridge(text, question);
-  if (!ack || !next?.lead) return next?.lead || '';
-  return `${ack} ${stripFirstSentence(next.lead)}`;
+  return next?.lead || '';
 }
 
 function nextLeadFrom(ack, next) {
@@ -463,16 +472,108 @@ function clipNote(text) {
   return `${line.slice(0, 107).replace(/\s+\S*$/, '')}…`;
 }
 
+const FILLER = new Set(
+  'a an and are as at be but by for from had has have i if in is it its just like my of on or our so that the this to we was were with you your they them their really very actually basically probably maybe kinda yeah yes ok okay well um uh also then than too not about into over after before because while when where who what how why which'.split(
+    ' ',
+  ),
+);
+
+const VAGUE = new Set(
+  'thing things stuff something anything someone somehow pretty quite kind sort feel think guess want wanted trying maybe probably basically honestly literally'.split(
+    ' ',
+  ),
+);
+
+const SIGNAL = new Set(
+  (
+    'college school university class hackathon job work coworker coworkers colleague office friends friend online ' +
+    'idea together both engineering product sales ops design full-time part-time consulting nights weekends quit left ' +
+    'delaware california incorporated entity startup equity split even contribution cliff vest vesting vested unvested ' +
+    'shares stock four-year one-year accelerate acceleration single-trigger double-trigger acquire acquired acquisition ' +
+    'unanimous deadlock advisor ceo ip assigned assignment license pre-existing contractor employer'
+  ).split(' '),
+);
+
+function tokenize(text) {
+  const tokens = [];
+  const re = /[A-Za-z0-9$][A-Za-z0-9'’/%-]*/g;
+  let match;
+  while ((match = re.exec(String(text)))) {
+    const word = match[0].replace(/[-/]+$/g, '');
+    if (!word) continue;
+    tokens.push({ word, start: match.index, end: match.index + word.length });
+  }
+  return tokens;
+}
+
+function phraseScore(words) {
+  const lower = words.map((word) => word.toLowerCase());
+  const content = lower.filter((word) => word && !FILLER.has(word));
+  if (!content.length) return -1;
+  if (words.length === 1 && content[0].length < 4 && !/\d/.test(content[0]) && !SIGNAL.has(content[0])) {
+    return -1;
+  }
+  if (content.every((word) => VAGUE.has(word))) return -1;
+
+  let score = words.length * 3;
+  words.forEach((word, i) => {
+    const w = lower[i];
+    if (/\d/.test(w) || /%/.test(w) || /\$/.test(w)) score += 6;
+    if (SIGNAL.has(w)) score += 5;
+    if (/^[A-Z]/.test(word) && word.length > 1) score += 4;
+    if (FILLER.has(w)) score -= 2;
+    else score += 2;
+    if (VAGUE.has(w)) score -= 3;
+  });
+  return score;
+}
+
+function criticalPhrases(text, limit = 3) {
+  const raw = String(text || '').replace(/\s+/g, ' ').trim();
+  if (!raw) return [];
+  if (looksLikeQuestion(raw) && !scenarioOf(raw) && raw.split(' ').length < 12) return [];
+
+  const tokens = tokenize(raw);
+  const candidates = [];
+  for (let n = 3; n >= 1; n--) {
+    for (let i = 0; i + n <= tokens.length; i++) {
+      const slice = tokens.slice(i, i + n);
+      const words = slice.map((token) => token.word);
+      const score = phraseScore(words);
+      if (score < 4) continue;
+      candidates.push({
+        text: raw.slice(slice[0].start, slice[n - 1].end),
+        start: slice[0].start,
+        end: slice[n - 1].end,
+        score,
+        n,
+      });
+    }
+  }
+
+  candidates.sort((a, b) => b.score - a.score || b.n - a.n || a.start - b.start);
+  const picked = [];
+  candidates.forEach((candidate) => {
+    if (picked.length >= limit) return;
+    if (picked.some((item) => candidate.start < item.end && candidate.end > item.start)) return;
+    picked.push(candidate);
+  });
+  return picked.sort((a, b) => a.start - b.start).map((item) => item.text);
+}
+
 function collectFrom(text, prior = []) {
   const next = prior.slice();
-  const scenario = scenarioOf(text);
-  let bit = '';
-  if (scenario) bit = clipNote(scenario);
-  else if (!looksLikeQuestion(text)) bit = clipNote(text);
-  if (!bit) return next;
-  const key = bit.toLowerCase();
-  if (next.some((note) => note.toLowerCase() === key)) return next;
-  next.push(bit);
+  const bits = criticalPhrases(text);
+  if (!bits.length) {
+    const scenario = scenarioOf(text);
+    const fallback = scenario ? clipNote(scenario) : looksLikeQuestion(text) ? '' : clipNote(text);
+    if (fallback) bits.push(fallback);
+  }
+  bits.forEach((bit) => {
+    const key = bit.toLowerCase();
+    if (next.some((note) => note.toLowerCase() === key)) return;
+    next.push(bit);
+  });
   return next.slice(-6);
 }
 
@@ -502,10 +603,12 @@ function draftAssist({ intent = 'rewrite', quote = '', text = '' } = {}) {
 window.Conversation = {
   isFollowUp,
   followUpReply,
+  onlyQuestion,
   nextLead,
   nextLeadFrom,
   bridge,
   collectFrom,
+  criticalPhrases,
   suggestContinue,
   draftAssist,
 };

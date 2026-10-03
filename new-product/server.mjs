@@ -76,8 +76,10 @@ function systemPrompt(body) {
       : [
           'The user is in a follow-up, not answering the question yet.',
           'Reply as JSON only, no markdown:',
-          '{"reply":"2–4 short sentences","notes":["working note"]}',
-          'notes = facts, hypotheticals, constraints, or extra context they offered in THIS back-and-forth. Not the formal interview answer. Not your advice. Not their clarifying questions. Max 6. One line each.',
+          '{"reply":"one direct follow-up question","notes":["working note"]}',
+          'reply = ONLY the next question. One sentence. Ends with a question mark.',
+          'No acknowledgment, recap, praise, or explanation. No "that makes sense", "got it", or "I ask because". Do not restate what they said. Just ask.',
+          'notes = the most important facts to document from their message. Each note must be a verbatim 1–3 word phrase copied from their text. Prefer names, places, numbers, roles, dates, constraints. Not filler. Not your advice. Max 6.',
           'If they added nothing new, return the existing notes unchanged.',
           body.readyToMove ? 'You have enough for this question. Do not ask a new interview question.' : '',
         ].join('\n'),

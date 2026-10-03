@@ -26,9 +26,21 @@
         <div class="sections-remaining" id="sections-remaining"></div>
         <div class="nav-section-label">Sections</div>
         <nav class="nav-list" id="tabs"></nav>
+        <div class="skin-switch" id="skin-switch" role="group" aria-label="How memory is shown">
+          <button type="button" data-skin="pill" title="Expandable list" aria-pressed="true">1</button>
+          <button type="button" data-skin="sentence" title="Living sentence" aria-pressed="false">2</button>
+          <button type="button" data-skin="marks" title="Tokens in the chat" aria-pressed="false">3</button>
+          <button type="button" data-skin="bubbles" title="Highlights · next in the thread" aria-pressed="false">4</button>
+          <button type="button" data-skin="inline" title="Left-aligned replies" aria-pressed="false">5</button>
+          <button type="button" data-skin="bubbles-side" title="Highlights · next beside input" aria-pressed="false">4b</button>
+          <button type="button" data-skin="bubbles-line" title="Highlights · next as text" aria-pressed="false">4c</button>
+        </div>
       </aside>
 
       <div class="workspace">
+      <div class="page-progress" aria-label="Interview progress">
+        <div class="page-progress__fill" id="page-progress"></div>
+      </div>
       <div class="panes">
         <div class="pane pane--chat">
           <main class="transcript" id="transcript">
@@ -42,7 +54,6 @@
           <footer class="composer-wrap">
             <div class="choices" id="choices" hidden></div>
             <div class="composer-row">
-              <button type="button" class="composer__back" id="back" aria-label="Back">←</button>
               <div class="composer">
                 <textarea
                   id="input"
@@ -51,7 +62,7 @@
                   placeholder="Answer, or ask a question…"
                   autofocus
                 ></textarea>
-                <button type="button" class="composer__send" id="send" aria-label="Send" disabled>→</button>
+                <button type="button" class="composer__send" id="send" aria-label="Send" disabled>↑</button>
               </div>
             </div>
             <p class="hint">
@@ -80,13 +91,7 @@
       </div>
     </div>
 
-    <div class="skin-switch" id="skin-switch" role="group" aria-label="How memory is shown">
-      <button type="button" data-skin="pill" title="Expandable list" aria-pressed="true">1</button>
-      <button type="button" data-skin="sentence" title="Living sentence" aria-pressed="false">2</button>
-      <button type="button" data-skin="marks" title="Tokens in the chat" aria-pressed="false">3</button>
-    </div>
-
-    <div class="studio" id="studio" hidden>
+    <div class="studio studio--rail-closed" id="studio" hidden>
       <header class="studio__bar">
         <p class="studio__hint">Select text to rewrite or comment</p>
         <span class="studio__crumb">Cofounder Agreement</span>
@@ -108,33 +113,27 @@
               <button type="button" class="studio-pop__apply" id="studio-pop-apply">Apply</button>
             </div>
           </div>
+          <button type="button" class="studio__rail-tab" id="studio-rail-tab">Updates</button>
           <div class="studio__scroll">
             <div class="studio__page">
               <article class="studio__doc" id="studio-doc" contenteditable="true" spellcheck="false"></article>
             </div>
           </div>
         </div>
-        <aside class="studio__rail" aria-label="Updates">
+        <aside class="studio__rail" id="studio-rail" aria-label="Updates">
           <div class="studio__rail-head">
-            <h2>Updates</h2>
+            <div class="studio__rail-title">
+              <h2>Updates</h2>
+              <button type="button" class="studio__rail-toggle" id="studio-rail-toggle" aria-expanded="false" aria-label="Show updates">›</button>
+            </div>
             <div class="studio__toggle" id="studio-toggle" role="tablist" aria-label="Update type">
               <button type="button" role="tab" data-filter="edits" aria-selected="true">Edits</button>
               <button type="button" role="tab" data-filter="comments" aria-selected="false">Comments</button>
             </div>
           </div>
           <div class="studio__edits" id="studio-edits"></div>
-          <footer class="studio__ask">
-            <input
-              id="studio-input"
-              class="studio__input"
-              type="text"
-              placeholder="Ask to revise…"
-            />
-            <button type="button" class="studio__send" id="studio-send" aria-label="Ask">→</button>
-          </footer>
           <div class="studio__actions">
             <button type="button" class="studio__reject" id="studio-reject">× Reject</button>
-            <button type="button" class="studio__download" id="studio-download" aria-label="Download">↓</button>
             <button type="button" class="studio__next" id="studio-next">Next →</button>
           </div>
         </aside>

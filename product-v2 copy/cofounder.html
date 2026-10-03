@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherrytree – Cofounder Information</title>
+  <link rel="stylesheet" href="../surveystyles.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="../cherries.png" alt="Cherrytree" />
+    </div>
+
+    <div class="company-name">Company</div>
+    <div class="progress-label">25% Complete</div>
+    <div class="progress-bar-track"><div class="progress-bar-fill"></div></div>
+    <div class="sections-remaining">4 sections remaining</div>
+
+    <div class="nav-section-label">Sections</div>
+    <ul class="nav-list">
+      <li class="done">
+        <span class="nav-dot done"></span>
+        <a href="survey.html">Formation &amp; Purpose</a>
+      </li>
+      <li class="active">
+        <span class="nav-dot active"></span>
+        <a href="#">Cofounder Info</a>
+      </li>
+      <li>
+        <span class="nav-dot notstarted"></span>
+        <a href="../equity-calculator/final-eqc3.html">Equity Allocation</a>
+      </li>
+      <li>
+        <span class="nav-dot notstarted"></span>
+        <a href="vesting.html">Vesting Schedule</a>
+      </li>
+      <li>
+        <span class="nav-dot notstarted"></span>
+        <a href="decision.html">Decision-Making</a>
+      </li>
+      <li>
+        <span class="nav-dot notstarted"></span>
+        <a href="ip.html">IP &amp; Ownership</a>
+      </li>
+      <li>
+        <span class="nav-dot notstarted"></span>
+        <a href="compensation.html">Compensation</a>
+      </li>
+      <li>
+        <span class="nav-dot notstarted"></span>
+        <a href="performance.html">Performance</a>
+      </li>
+      <li>
+        <span class="nav-dot notstarted"></span>
+        <a href="noncompete.html">Non-Competition</a>
+      </li>
+      <li>
+        <span class="nav-dot notstarted"></span>
+        <a href="general.html">General Provisions</a>
+      </li>
+      <li>
+        <span class="nav-dot notstarted"></span>
+        <a href="review.html">Review &amp; Approve</a>
+      </li>
+    </ul>
+    <div class="sidebar-section-divider"></div>
+    <ul class="nav-list nav-list-locked">
+      <li><span class="nav-dot notstarted"></span><a href="final-agreement.html">Final Agreement</a></li>
+    </ul>
+    <div class="sidebar-upgrade">
+      <button class="sidebar-upgrade-btn" id="upgrade-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span>Upgrade to Pro</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="upgrade-backdrop" id="upgrade-backdrop">
+    <div class="upgrade-modal">
+      <div class="upgrade-modal-header">
+        <div>
+          <div class="upgrade-modal-title">Upgrade Your Plan</div>
+          <div class="upgrade-modal-sub">Choose the plan that's right for your team.</div>
+        </div>
+        <button class="upgrade-close" id="upgrade-close">×</button>
+      </div>
+      <div class="upgrade-plans">
+        <div class="upgrade-plan current">
+          <div class="upgrade-plan-badge current-badge">Current plan</div>
+          <div class="upgrade-plan-tier">Starter</div>
+          <div class="upgrade-plan-price">$200</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <ul class="upgrade-features">
+            <li>Expert-designed guided survey</li>
+            <li>Comprehensive agreements</li>
+            <li>Proprietary equity calculator</li>
+            <li>Best practices and tips</li>
+            <li>Up to 5 collaborators</li>
+          </ul>
+        </div>
+        <div class="upgrade-plan pro">
+          <div class="upgrade-plan-badge pro-badge">Coming Soon</div>
+          <div class="upgrade-plan-tier">Pro</div>
+          <div class="upgrade-plan-price">$2,000</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <div class="upgrade-waitlist-label">Join the waitlist</div>
+          <div class="upgrade-waitlist-row">
+            <input class="upgrade-waitlist-input" type="email" placeholder="your@email.com" />
+            <button class="upgrade-waitlist-btn">Join</button>
+          </div>
+          <ul class="upgrade-features" style="margin-top:18px;">
+            <li>Everything in Starter, plus</li>
+            <li>Final attorney review</li>
+            <li>Cofounder coaching</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="top-left">
+        <a class="back-link" href="dashboard.html">Back</a>
+        <span class="saved-label">Saved 2 min ago</span>
+      </div>
+      <div class="avatar-wrap" id="avatar-wrap">
+        <div class="avatar" id="avatar-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="profile-dropdown" id="profile-dropdown">
+          <div class="profile-email">name@startup.co</div>
+          <div class="profile-divider"></div>
+          <button class="profile-item">Account</button>
+          <button class="profile-item" id="profile-billing-btn">Billing</button>
+          <button class="profile-item profile-signout" id="profile-signout-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="page-title">Cofounder Information</h1>
+    <p class="page-desc">Whether it's just the two of you or if there's a dozen of you, this is the crew that decided to go for it. Names, roles, contact info, sure. But it's also a snapshot of the team before the world knows your name. Someday, this will be the "garage team" story you tell in interviews.</p>
+
+    <div class="cf-card">
+      <div class="cf-card-header">
+        <span class="cf-card-title">Cofounders</span>
+        <button class="cf-add-btn" id="cf-add-btn">
+          Add <span class="cf-add-icon">+</span>
+        </button>
+      </div>
+
+      <div class="cf-list" id="cf-list"></div>
+
+      <!-- Add new cofounder form -->
+      <div class="cf-form-wrap" id="cf-form-wrap">
+        <div class="cf-form-inner">
+          <div class="cf-form-divider"></div>
+          <div class="cf-form-fields">
+            <div class="cf-inline-form-grid">
+              <div>
+                <span class="cf-field-label">Full Name</span>
+                <input class="card-input" type="text" placeholder="First Last" id="cf-name" />
+              </div>
+              <div>
+                <span class="cf-field-label">Title</span>
+                <input class="card-input" type="text" placeholder="Chief Executive Officer" id="cf-title" />
+              </div>
+              <div>
+                <span class="cf-field-label">Email</span>
+                <input class="card-input" type="email" placeholder="firstlast@cherrytree.app" id="cf-email" />
+              </div>
+            </div>
+            <div class="cf-field">
+              <span class="cf-field-label" style="margin-top:20px;display:block;">Roles and Responsibilities</span>
+              <div class="cf-field-sublabel">Select all that apply.</div>
+              <div class="card-checkbox-group" id="cf-roles-add"></div>
+            </div>
+            <div class="cf-form-footer">
+              <button class="cf-cancel-btn" id="cf-cancel-btn" type="button">Cancel</button>
+              <button class="cf-submit-btn" id="cf-submit-btn" type="button">Add Cofounder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-section-bar" id="next-section-bar">
+      <a class="next-section-btn" href="vesting.html">Continue</a>
+    </div>
+  </main>
+
+  <script>
+    const CF_KEY   = 'ct_cofounders';
+    const formWrap = document.getElementById('cf-form-wrap');
+    const cfList   = document.getElementById('cf-list');
+    const addBtn   = document.getElementById('cf-add-btn');
+
+    const ROLES = [
+      'Community / content', 'Customer success / support', 'Engineering / development',
+      'Finance / operations', 'Fundraising', 'Hiring / culture', 'Legal / compliance',
+      'Marketing / growth', 'Product strategy', 'Sales / business development',
+      'UX / design', 'Other'
+    ];
+
+    let cofounders = [];
+
+    // Build checkbox HTML for a given name prefix and checked values
+    function rolesHTML(nameAttr, checked) {
+      return ROLES.map(role => `
+        <label class="card-checkbox-option">
+          <input type="checkbox" name="${nameAttr}" value="${role}" ${checked.includes(role) ? 'checked' : ''} />
+          <span class="checkbox-box"></span>${role}
+        </label>`).join('');
+    }
+
+    // Populate the add-form roles on first render
+    document.getElementById('cf-roles-add').innerHTML = rolesHTML('roles-add', []);
+
+    function saveCofounders() {
+      localStorage.setItem(CF_KEY, JSON.stringify(cofounders));
+      const el = document.getElementById('sidebar-cofounder-list');
+      if (el) el.textContent = cofounders.map(c => c.name).join(', ') || '—';
+    }
+
+    function renderList() {
+      cfList.innerHTML = '';
+      cofounders.forEach((cf, i) => {
+        const item = document.createElement('div');
+        item.className = 'cf-list-item';
+        item.innerHTML = `
+          <div class="cf-item-row">
+            <div class="cf-list-item-info">
+              <span class="cf-list-item-name">${cf.name}</span>
+              ${cf.title ? `<span class="cf-list-item-sub">${cf.title}</span>` : ''}
+            </div>
+            <button class="cf-edit-btn" data-i="${i}" type="button">Edit</button>
+          </div>
+          <div class="cf-item-form-wrap">
+            <div class="cf-item-form-inner">
+              <div class="cf-form-divider"></div>
+              <div class="cf-inline-form-grid">
+                <div>
+                  <span class="cf-field-label">Full Name</span>
+                  <input class="card-input" type="text" data-field="name" value="${cf.name}" placeholder="First Last" />
+                </div>
+                <div>
+                  <span class="cf-field-label">Title</span>
+                  <input class="card-input" type="text" data-field="title" value="${cf.title || ''}" placeholder="Chief Executive Officer" />
+                </div>
+                <div>
+                  <span class="cf-field-label">Email</span>
+                  <input class="card-input" type="email" data-field="email" value="${cf.email || ''}" placeholder="firstlast@cherrytree.app" />
+                </div>
+              </div>
+              <div class="cf-field">
+                <span class="cf-field-label" style="margin-top:20px;display:block;">Roles and Responsibilities</span>
+                <div class="cf-field-sublabel">Select all that apply.</div>
+                <div class="card-checkbox-group">${rolesHTML('roles-' + i, cf.roles || [])}</div>
+              </div>
+              <div class="cf-form-footer">
+                <button class="cf-remove-btn cf-inline-remove" data-i="${i}" type="button">Remove</button>
+                <button class="cf-cancel-btn cf-inline-cancel" type="button">Cancel</button>
+                <button class="cf-submit-btn cf-inline-save" data-i="${i}" type="button">Update Cofounder</button>
+              </div>
+            </div>
+          </div>
+        `;
+        cfList.appendChild(item);
+      });
+
+      cfList.querySelectorAll('.cf-edit-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const item = btn.closest('.cf-list-item');
+          const wrap = item.querySelector('.cf-item-form-wrap');
+          const isOpen = wrap.classList.contains('open');
+          cfList.querySelectorAll('.cf-item-form-wrap.open').forEach(w => w.classList.remove('open'));
+          if (!isOpen) {
+            wrap.classList.add('open');
+            setTimeout(() => item.querySelector('input[data-field="name"]').focus(), 380);
+          }
+        });
+      });
+
+      cfList.querySelectorAll('.cf-inline-remove').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const i = parseInt(btn.dataset.i);
+          cofounders.splice(i, 1);
+          saveCofounders();
+          renderList();
+        });
+      });
+
+      cfList.querySelectorAll('.cf-inline-cancel').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          btn.closest('.cf-item-form-wrap').classList.remove('open');
+        });
+      });
+
+      cfList.querySelectorAll('.cf-inline-save').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const i    = parseInt(btn.dataset.i);
+          const item = btn.closest('.cf-list-item');
+          const name  = item.querySelector('input[data-field="name"]').value.trim() || 'New Cofounder';
+          const title = item.querySelector('input[data-field="title"]').value.trim();
+          const email = item.querySelector('input[data-field="email"]').value.trim();
+          const roles = Array.from(item.querySelectorAll(`input[name="roles-${i}"]:checked`)).map(cb => cb.value);
+          cofounders[i] = { name, title, email, roles };
+          saveCofounders();
+          renderList();
+        });
+      });
+    }
+
+    function closeAddForm() {
+      formWrap.classList.remove('open');
+      document.getElementById('cf-name').value  = '';
+      document.getElementById('cf-title').value = '';
+      document.getElementById('cf-email').value = '';
+      document.querySelectorAll('input[name="roles-add"]').forEach(cb => cb.checked = false);
+    }
+
+    addBtn.addEventListener('click', () => {
+      if (formWrap.classList.contains('open')) {
+        closeAddForm();
+      } else {
+        cfList.querySelectorAll('.cf-item-form-wrap.open').forEach(w => w.classList.remove('open'));
+        formWrap.classList.add('open');
+        setTimeout(() => document.getElementById('cf-name').focus(), 400);
+      }
+    });
+
+    document.getElementById('cf-cancel-btn').addEventListener('click', closeAddForm);
+
+    document.getElementById('cf-submit-btn').addEventListener('click', () => {
+      const name  = document.getElementById('cf-name').value.trim()  || 'New Cofounder';
+      const title = document.getElementById('cf-title').value.trim();
+      const email = document.getElementById('cf-email').value.trim();
+      const roles = Array.from(document.querySelectorAll('input[name="roles-add"]:checked')).map(cb => cb.value);
+      cofounders.push({ name, title, email, roles });
+      saveCofounders();
+      renderList();
+      closeAddForm();
+    });
+
+    // Restore from localStorage
+    try {
+      const stored = JSON.parse(localStorage.getItem(CF_KEY) || 'null');
+      if (stored && stored.length) {
+        cofounders = stored.map(item =>
+          typeof item === 'string' ? { name: item, title: '', email: '', roles: [] } : item
+        );
+      } else {
+        cofounders = [{ name: 'Cofounder A', title: '', email: '', roles: [] }];
+        saveCofounders();
+      }
+    } catch(e) {
+      cofounders = [{ name: 'Cofounder A', title: '', email: '', roles: [] }];
+    }
+
+    renderList();
+    const sidebarEl = document.getElementById('sidebar-cofounder-list');
+    if (sidebarEl) sidebarEl.textContent = cofounders.map(c => c.name).join(', ') || '—';
+  </script>
+  <script>
+    // Profile dropdown
+    const avatarBtn = document.getElementById('avatar-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    avatarBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      profileDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+    profileDropdown.addEventListener('click', e => e.stopPropagation());
+    document.getElementById('profile-billing-btn').addEventListener('click', () => {
+      profileDropdown.classList.remove('open');
+      document.getElementById('upgrade-backdrop').classList.add('open');
+    });
+    document.getElementById('profile-signout-btn').addEventListener('click', () => {
+      window.location.href = '../product/signin.html';
+    });
+  </script>
+  <script src="../sidebar.js"></script>
+  <script>
+    const upgradeBackdrop = document.getElementById('upgrade-backdrop');
+    document.getElementById('upgrade-btn').addEventListener('click', () => upgradeBackdrop.classList.add('open'));
+    document.getElementById('upgrade-close').addEventListener('click', () => upgradeBackdrop.classList.remove('open'));
+    upgradeBackdrop.addEventListener('click', e => { if (e.target === upgradeBackdrop) upgradeBackdrop.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') upgradeBackdrop.classList.remove('open'); });
+  </script>
+  <!-- AI Chat -->
+  <button class="chat-fab" id="chat-fab">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Ask AI
+  </button>
+
+  <div class="chat-panel" id="chat-panel">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="chat-ai-orb">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <span class="chat-header-name">Cherrytree AI</span>
+      </div>
+      <div class="chat-header-right">
+        <span class="chat-private-badge">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Private
+        </span>
+        <button class="chat-close-btn" id="chat-close">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg ai">
+        <div class="chat-bubble">Hi! I'm your cofounder coach. Ask me anything about your agreement, equity, or cofounder dynamics — completely private from your cofounders.</div>
+      </div>
+      <div class="chat-suggestions" id="chat-suggestions">
+        <button class="chat-suggestion">Help with this section</button>
+        <button class="chat-suggestion">Explain vesting schedules</button>
+        <button class="chat-suggestion">Cofounder conflict advice</button>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chat-input" placeholder="Ask me anything..." />
+      <button class="chat-send-btn" id="chat-send">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+      </button>
+    </div>
+  </div>
+  <script>
+    // AI Chat
+    const chatFab    = document.getElementById('chat-fab');
+    const chatPanel  = document.getElementById('chat-panel');
+    const chatClose  = document.getElementById('chat-close');
+    const chatInput  = document.getElementById('chat-input');
+    const chatSend   = document.getElementById('chat-send');
+    const chatMsgs   = document.getElementById('chat-messages');
+
+    function openChat()  { chatPanel.classList.add('open'); chatFab.classList.add('hidden'); setTimeout(() => chatInput.focus(), 220); }
+    function closeChat() { chatPanel.classList.remove('open'); chatFab.classList.remove('hidden'); }
+    chatFab.addEventListener('click', openChat);
+    chatClose.addEventListener('click', closeChat);
+
+    function appendMsg(text, role) {
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-msg ' + role;
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble';
+      bubble.textContent = text;
+      wrap.appendChild(bubble);
+      chatMsgs.appendChild(wrap);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      return wrap;
+    }
+
+    function showTyping() {
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-msg ai';
+      wrap.innerHTML = '<div class="chat-typing-bubble"><span></span><span></span><span></span></div>';
+      chatMsgs.appendChild(wrap);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      return wrap;
+    }
+
+    const aiReplies = [
+      "Great question. I can help you think through that. What aspect concerns you most?",
+      "That's a common challenge for early-stage cofounders. The key is to align early on expectations rather than assume alignment.",
+      "Based on what I know about your agreement so far, here's what I'd suggest thinking through...",
+      "I'm here to help — this is completely private and won't be shared with your cofounders.",
+    ];
+    let replyIdx = 0;
+
+    function sendMessage(text) {
+      if (!text.trim()) return;
+      const suggestions = document.getElementById('chat-suggestions');
+      if (suggestions) suggestions.remove();
+      appendMsg(text, 'user');
+      chatInput.value = '';
+      const typing = showTyping();
+      setTimeout(() => {
+        typing.remove();
+        appendMsg(aiReplies[replyIdx % aiReplies.length], 'ai');
+        replyIdx++;
+      }, 1200 + Math.random() * 600);
+    }
+
+    chatSend.addEventListener('click', () => sendMessage(chatInput.value));
+    chatInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatInput.value); } });
+    document.querySelectorAll('.chat-suggestion').forEach(btn => {
+      btn.addEventListener('click', () => sendMessage(btn.textContent));
+    });
+  </script>
+</body>
+</html>

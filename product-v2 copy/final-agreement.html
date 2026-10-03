@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherrytree – Final Agreement</title>
+  <link rel="stylesheet" href="../surveystyles.css" />
+  <style>
+    /* ── Document viewer ── */
+    .doc-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .doc-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .doc-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 400;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: #E8F4EF;
+      color: #4B7263;
+    }
+    .doc-status-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #4B7263; flex-shrink: 0;
+    }
+    .doc-toolbar-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .doc-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 400;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
+      border: none;
+    }
+    .doc-action-btn.primary {
+      background: #4B7263; color: #fff;
+    }
+    .doc-action-btn.primary:hover { background: #3d5e52; }
+    .doc-action-btn.secondary {
+      background: #EAE6E0; color: #5a5650;
+      border: none;
+    }
+    .doc-action-btn.secondary:hover { background: #E0DCD5; color: #2d2a22; }
+
+    /* ── Signature strip ── */
+    .sig-strip {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .sig-card {
+      flex: 1;
+      min-width: 180px;
+      background: #F6F3EE;
+      border: none;
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sig-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #E3DFD8;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 500; color: #5a5650;
+      flex-shrink: 0;
+    }
+    .sig-info { flex: 1; min-width: 0; }
+    .sig-name { font-size: 13px; font-weight: 400; color: #2d2a22; }
+    .sig-role { font-size: 11px; font-weight: 300; color: #aaa; margin-top: 1px; }
+    .sig-badge {
+      font-size: 11px; font-weight: 400; padding: 3px 9px;
+      border-radius: 20px; flex-shrink: 0;
+    }
+    .sig-badge.signed { background: #E8F4EF; color: #4B7263; }
+    .sig-date { font-size: 10px; font-weight: 300; color: #bbb; margin-top: 3px; }
+
+    /* ── Document body ── */
+    .doc-paper {
+      background: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 40px 48px 60px;
+      font-family: 'Outfit', sans-serif;
+      color: #2d2a22;
+      line-height: 1.72;
+      margin-bottom: 28px;
+    }
+    .doc-paper h1.doc-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 26px;
+      font-weight: 400;
+      text-align: center;
+      letter-spacing: -0.2px;
+      margin-bottom: 6px;
+      color: #2d2a22;
+    }
+    .doc-paper .doc-subtitle {
+      font-size: 12px;
+      font-weight: 300;
+      color: #aaa;
+      text-align: center;
+      margin-bottom: 40px;
+      letter-spacing: 0.02em;
+    }
+    .doc-divider { display: none; }
+    .doc-section {
+      margin-bottom: 28px;
+    }
+    .doc-section-num { display: none; }
+    .doc-section h2 {
+      font-size: 15px;
+      font-weight: 500;
+      color: #2d2a22;
+      margin-bottom: 10px;
+    }
+    .doc-section p {
+      font-size: 13px;
+      font-weight: 300;
+      color: #555;
+      line-height: 1.75;
+      margin-bottom: 8px;
+    }
+    .doc-section p:last-child { margin-bottom: 0; }
+    .doc-field {
+      display: inline;
+      background: #F6F3EE;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 13px;
+      font-weight: 400;
+      color: #2d2a22;
+    }
+
+    .doc-sig-block {
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .doc-sig-line-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .doc-sig-line {
+      border-bottom: 1px solid #2d2a22;
+      height: 36px;
+      position: relative;
+    }
+    .doc-sig-signed-name {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: #4B7263;
+      position: absolute;
+      bottom: 4px;
+      left: 0;
+    }
+    .doc-sig-label {
+      font-size: 11px;
+      font-weight: 300;
+      color: #aaa;
+    }
+    .doc-sig-name-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: #2d2a22;
+    }
+    .doc-sig-date-label {
+      font-size: 11px;
+      font-weight: 300;
+      color: #aaa;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="../cherries.png" alt="Cherrytree" />
+    </div>
+
+    <div class="company-name">Company</div>
+    <div class="progress-label">100% Complete</div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:100%"></div></div>
+    <div class="sections-remaining">Agreement ready</div>
+
+    <div class="nav-section-label">Sections</div>
+    <ul class="nav-list">
+      <li class="done"><span class="nav-dot done"></span><a href="survey.html">Formation &amp; Purpose</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="cofounder.html">Cofounder Info</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="../equity-calculator/final-eqc3.html">Equity Allocation</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="vesting.html">Vesting Schedule</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="decision.html">Decision-Making</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="ip.html">IP &amp; Ownership</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="compensation.html">Compensation</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="performance.html">Performance</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="noncompete.html">Non-Competition</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="general.html">General Provisions</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="review.html">Review &amp; Approve</a></li>
+    </ul>
+    <div class="sidebar-section-divider"></div>
+    <ul class="nav-list">
+      <li class="active"><span class="nav-dot active"></span><a href="final-agreement.html">Final Agreement</a></li>
+    </ul>
+    <div class="sidebar-upgrade">
+      <button class="sidebar-upgrade-btn" id="upgrade-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span>Upgrade to Pro</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="upgrade-backdrop" id="upgrade-backdrop">
+    <div class="upgrade-modal">
+      <div class="upgrade-modal-header">
+        <div>
+          <div class="upgrade-modal-title">Upgrade Your Plan</div>
+          <div class="upgrade-modal-sub">Choose the plan that's right for your team.</div>
+        </div>
+        <button class="upgrade-close" id="upgrade-close">×</button>
+      </div>
+      <div class="upgrade-plans">
+        <div class="upgrade-plan current">
+          <div class="upgrade-plan-badge current-badge">Current plan</div>
+          <div class="upgrade-plan-tier">Starter</div>
+          <div class="upgrade-plan-price">$200</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <ul class="upgrade-features">
+            <li>Expert-designed guided survey</li>
+            <li>Comprehensive agreements</li>
+            <li>Proprietary equity calculator</li>
+            <li>Best practices and tips</li>
+            <li>Up to 5 collaborators</li>
+          </ul>
+        </div>
+        <div class="upgrade-plan pro">
+          <div class="upgrade-plan-badge pro-badge">Coming Soon</div>
+          <div class="upgrade-plan-tier">Pro</div>
+          <div class="upgrade-plan-price">$2,000</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <div class="upgrade-waitlist-label">Join the waitlist</div>
+          <div class="upgrade-waitlist-row">
+            <input class="upgrade-waitlist-input" type="email" placeholder="your@email.com" />
+            <button class="upgrade-waitlist-btn">Join</button>
+          </div>
+          <ul class="upgrade-features" style="margin-top:18px;">
+            <li>Everything in Starter, plus</li>
+            <li>Final attorney review</li>
+            <li>Cofounder coaching</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="top-left">
+        <a class="back-link" href="review.html">Back</a>
+        <span class="saved-label">All parties signed · July 13, 2026</span>
+      </div>
+      <div class="avatar-wrap" id="avatar-wrap">
+        <div class="avatar" id="avatar-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="profile-dropdown" id="profile-dropdown">
+          <div class="profile-email">name@startup.co</div>
+          <div class="profile-divider"></div>
+          <button class="profile-item">Account</button>
+          <button class="profile-item" id="profile-billing-btn">Billing</button>
+          <button class="profile-item profile-signout" id="profile-signout-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="page-title">Final Agreement</h1>
+    <p class="page-desc">Your Cofounder Agreement is complete and signed by all parties. Download a copy for your records.</p>
+
+    <!-- Toolbar -->
+    <div class="doc-toolbar">
+      <div class="doc-toolbar-left">
+        <div class="doc-status-pill">
+          <div class="doc-status-dot"></div>
+          Fully executed
+        </div>
+      </div>
+      <div class="doc-toolbar-actions">
+        <button class="doc-action-btn secondary" onclick="window.print()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print
+        </button>
+        <button class="doc-action-btn primary" id="download-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- Signature status -->
+    <div class="sig-strip">
+      <div class="sig-card">
+        <div class="sig-avatar">Y</div>
+        <div class="sig-info">
+          <div class="sig-name">You</div>
+          <div class="sig-role">Cofounder</div>
+          <div class="sig-date">Signed Jul 13, 2026</div>
+        </div>
+        <span class="sig-badge signed">Signed</span>
+      </div>
+      <div class="sig-card">
+        <div class="sig-avatar">C</div>
+        <div class="sig-info">
+          <div class="sig-name">Cofounder 2</div>
+          <div class="sig-role">Cofounder</div>
+          <div class="sig-date">Signed Jul 13, 2026</div>
+        </div>
+        <span class="sig-badge signed">Signed</span>
+      </div>
+    </div>
+
+    <!-- Document body -->
+    <div class="doc-paper">
+      <h1 class="doc-title">Cofounder Agreement</h1>
+      <div class="doc-subtitle">Company &nbsp;·&nbsp; Executed July 13, 2026</div>
+
+      <hr class="doc-divider" />
+
+      <div class="doc-section">
+        <div class="doc-section-num">Preamble</div>
+        <p>This Cofounder Agreement ("Agreement") is entered into as of <span class="doc-field">July 13, 2026</span>, by and between the undersigned founders (collectively, the "Cofounders") of <span class="doc-field">Company</span>, a <span class="doc-field">Delaware C-Corporation</span> (the "Company"). The Cofounders desire to set forth their mutual understandings and agreements regarding their roles, responsibilities, equity ownership, and other matters relating to the Company.</p>
+      </div>
+
+      <hr class="doc-divider" />
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 1</div>
+        <h2>Formation &amp; Purpose</h2>
+        <p>The Company was formed to <span class="doc-field">—</span>. The Cofounders agree to work diligently and in good faith toward the Company's mission and to act in the best interests of the Company at all times.</p>
+        <p>The Company's principal place of business shall be determined by the Cofounders. The Company's legal structure is a <span class="doc-field">Delaware C-Corporation</span>, with the intention of raising venture capital financing.</p>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 2</div>
+        <h2>Cofounder Information &amp; Roles</h2>
+        <p>The Cofounders and their respective titles are as set forth in Exhibit A. Each Cofounder agrees to devote their full professional time and attention to the Company, unless otherwise agreed in writing by all Cofounders.</p>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 3</div>
+        <h2>Equity Allocation</h2>
+        <p>The Cofounders' initial equity ownership in the Company shall be as determined by the Cherrytree Equity Calculator and agreed upon by all Cofounders, as set forth in Exhibit B. All equity is subject to the vesting schedule described in Section 4.</p>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 4</div>
+        <h2>Vesting Schedule</h2>
+        <p>All equity held by Cofounders shall vest over a period of <span class="doc-field">4 years</span>, with a <span class="doc-field">1-year cliff</span>. Upon the cliff date, <span class="doc-field">25%</span> of each Cofounder's equity shall vest. The remaining equity shall vest monthly in equal installments over the following <span class="doc-field">36 months</span>.</p>
+        <p>In the event a Cofounder ceases to be active with the Company before the cliff, they shall forfeit all unvested equity. After the cliff, unvested equity shall be subject to the Company's repurchase right at the lower of cost or fair market value.</p>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 5</div>
+        <h2>Decision-Making</h2>
+        <p>Ordinary business decisions shall be made by <span class="doc-field">majority vote</span> of the Cofounders. Matters materially affecting the Company's direction, including but not limited to equity issuance, raising financing, sale of the Company, or amendment of this Agreement, shall require <span class="doc-field">unanimous written consent</span> of all Cofounders.</p>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 6</div>
+        <h2>Intellectual Property &amp; Ownership</h2>
+        <p>Each Cofounder hereby assigns to the Company all right, title, and interest in any and all intellectual property created, developed, or contributed in connection with the Company's business, whether before or after the date of this Agreement. This includes inventions, software, trade secrets, designs, and any other proprietary materials.</p>
+        <p>Each Cofounder represents that they are not subject to any agreement that would conflict with their obligations under this Section.</p>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 7</div>
+        <h2>Compensation</h2>
+        <p>Cofounder salaries, if any, shall be determined by mutual agreement and subject to the Company's financial capacity. Until otherwise agreed in writing, Cofounders shall defer compensation or accept minimal compensation as the Company requires.</p>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 8</div>
+        <h2>Performance &amp; Accountability</h2>
+        <p>Cofounders agree to set and review mutual performance expectations on a regular basis. In the event a Cofounder fails to perform their agreed responsibilities after reasonable notice and opportunity to cure, the remaining Cofounders may, by unanimous vote, initiate a buyout or separation process as described in the Company's bylaws.</p>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 9</div>
+        <h2>Non-Competition &amp; Non-Solicitation</h2>
+        <p>During the term of this Agreement and for a period of <span class="doc-field">12 months</span> following departure, each Cofounder agrees not to engage in any business activity that directly competes with the Company, and not to solicit the Company's employees, contractors, or customers.</p>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-num">Section 10</div>
+        <h2>General Provisions</h2>
+        <p>This Agreement shall be governed by the laws of the State of <span class="doc-field">Delaware</span>, without regard to conflict of law principles. Any disputes arising under this Agreement shall first be submitted to mediation, and if unresolved, to binding arbitration in accordance with the rules of JAMS.</p>
+        <p>This Agreement constitutes the entire agreement among the Cofounders with respect to its subject matter and supersedes all prior negotiations, representations, and agreements. This Agreement may be amended only by a written instrument signed by all Cofounders.</p>
+      </div>
+
+      <hr class="doc-divider" />
+
+      <!-- Signature block -->
+      <div class="doc-sig-block">
+        <div class="doc-sig-line-wrap">
+          <div class="doc-sig-line">
+            <span class="doc-sig-signed-name">Cofounder One</span>
+          </div>
+          <div class="doc-sig-label">Signature</div>
+          <div class="doc-sig-name-label">Cofounder One</div>
+          <div class="doc-sig-date-label">July 13, 2026</div>
+        </div>
+        <div class="doc-sig-line-wrap">
+          <div class="doc-sig-line">
+            <span class="doc-sig-signed-name">Cofounder Two</span>
+          </div>
+          <div class="doc-sig-label">Signature</div>
+          <div class="doc-sig-name-label">Cofounder Two</div>
+          <div class="doc-sig-date-label">July 13, 2026</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Profile dropdown
+    const avatarBtn = document.getElementById('avatar-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    avatarBtn.addEventListener('click', e => { e.stopPropagation(); profileDropdown.classList.toggle('open'); });
+    document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+    document.getElementById('profile-signout-btn').addEventListener('click', () => { window.location.href = 'signin.html'; });
+
+    // Upgrade modal
+    const upgradeBackdrop = document.getElementById('upgrade-backdrop');
+    document.getElementById('upgrade-btn').addEventListener('click', () => upgradeBackdrop.classList.add('open'));
+    document.getElementById('upgrade-close').addEventListener('click', () => upgradeBackdrop.classList.remove('open'));
+    upgradeBackdrop.addEventListener('click', e => { if (e.target === upgradeBackdrop) upgradeBackdrop.classList.remove('open'); });
+
+    document.getElementById('download-btn').addEventListener('click', () => window.print());
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') upgradeBackdrop.classList.remove('open'); });
+  </script>
+  <script src="../sidebar.js"></script>
+</body>
+</html>

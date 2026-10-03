@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherrytree – Decision-Making &amp; Voting</title>
+  <link rel="stylesheet" href="../surveystyles.css" />
+  <link rel="stylesheet" href="prompt.css" />
+</head>
+<body class="prompt-body">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="../cherries.png" alt="Cherrytree" />
+    </div>
+
+    <div class="company-name">Company</div>
+    <div class="progress-label">30% Complete</div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:30%"></div></div>
+    <div class="sections-remaining">6 sections remaining</div>
+
+    <div class="nav-section-label">Sections</div>
+    <ul class="nav-list">
+      <li class="done"><span class="nav-dot done"></span><a href="survey.html">Formation &amp; Purpose</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="cofounder.html">Cofounder Info</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="../equity-calculator/final-eqc3.html">Equity Allocation</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="vesting.html">Vesting Schedule</a></li>
+      <li class="active"><span class="nav-dot active"></span><a href="decision-prompt.html">Decision-Making</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="ip.html">IP &amp; Ownership</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="compensation.html">Compensation</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="performance.html">Performance</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="noncompete.html">Non-Competition</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="general.html">General Provisions</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="review.html">Review &amp; Approve</a></li>
+    </ul>
+    <div class="sidebar-section-divider"></div>
+    <ul class="nav-list nav-list-locked">
+      <li><span class="nav-dot notstarted"></span><a href="final-agreement.html">Final Agreement</a></li>
+    </ul>
+    <div class="sidebar-upgrade">
+      <button class="sidebar-upgrade-btn" id="upgrade-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span>Upgrade to Pro</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="upgrade-backdrop" id="upgrade-backdrop">
+    <div class="upgrade-modal">
+      <div class="upgrade-modal-header">
+        <div>
+          <div class="upgrade-modal-title">Upgrade Your Plan</div>
+          <div class="upgrade-modal-sub">Choose the plan that's right for your team.</div>
+        </div>
+        <button class="upgrade-close" id="upgrade-close">×</button>
+      </div>
+      <div class="upgrade-plans">
+        <div class="upgrade-plan current">
+          <div class="upgrade-plan-badge current-badge">Current plan</div>
+          <div class="upgrade-plan-tier">Starter</div>
+          <div class="upgrade-plan-price">$200</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <ul class="upgrade-features">
+            <li>Expert-designed guided survey</li>
+            <li>Comprehensive agreements</li>
+            <li>Proprietary equity calculator</li>
+            <li>Best practices and tips</li>
+            <li>Up to 5 collaborators</li>
+          </ul>
+        </div>
+        <div class="upgrade-plan pro">
+          <div class="upgrade-plan-badge pro-badge">Coming Soon</div>
+          <div class="upgrade-plan-tier">Pro</div>
+          <div class="upgrade-plan-price">$2,000</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <div class="upgrade-waitlist-label">Join the waitlist</div>
+          <div class="upgrade-waitlist-row">
+            <input class="upgrade-waitlist-input" type="email" placeholder="your@email.com" />
+            <button class="upgrade-waitlist-btn">Join</button>
+          </div>
+          <ul class="upgrade-features" style="margin-top:18px;">
+            <li>Everything in Starter, plus</li>
+            <li>Final attorney review</li>
+            <li>Cofounder coaching</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main prompt-main">
+    <div class="top-bar">
+      <div class="top-left">
+        <a class="back-link" href="vesting.html">Back</a>
+        <span class="saved-label">Saved 2 min ago</span>
+        <a class="layout-switch" href="decision-chat.html">Chat layout</a>
+        <a class="layout-switch current" href="decision-prompt.html">Prompt layout</a>
+      </div>
+      <div class="avatar-wrap" id="avatar-wrap">
+        <div class="avatar" id="avatar-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="profile-dropdown" id="profile-dropdown">
+          <div class="profile-email">name@startup.co</div>
+          <div class="profile-divider"></div>
+          <button class="profile-item">Account</button>
+          <button class="profile-item" id="profile-billing-btn">Billing</button>
+          <button class="profile-item profile-signout" id="profile-signout-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ll-progress" id="ll-progress" aria-hidden="true"><div class="ll-progress-fill" id="ll-progress-fill"></div></div>
+    <div class="prompt-stage" id="prompt-stage"></div>
+    <div class="next-section-bar" id="next-section-bar">
+      <a class="next-section-btn" href="ip.html">Continue</a>
+    </div>
+  </main>
+
+  <script src="decision-questions.js"></script>
+  <script src="prompt.js"></script>
+  <script>
+    PromptInterview.start({
+      questions: window.DECISION_QUESTIONS,
+      storagePrefix: 'ct_dec_p_'
+    });
+  </script>
+  <script>
+    const avatarBtn = document.getElementById('avatar-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    avatarBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      profileDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+    profileDropdown.addEventListener('click', e => e.stopPropagation());
+    document.getElementById('profile-billing-btn').addEventListener('click', () => {
+      profileDropdown.classList.remove('open');
+      document.getElementById('upgrade-backdrop').classList.add('open');
+    });
+    document.getElementById('profile-signout-btn').addEventListener('click', () => {
+      window.location.href = '../product/signin.html';
+    });
+  </script>
+  <script src="../sidebar.js"></script>
+  <script>
+    const upgradeBackdrop = document.getElementById('upgrade-backdrop');
+    document.getElementById('upgrade-btn').addEventListener('click', () => upgradeBackdrop.classList.add('open'));
+    document.getElementById('upgrade-close').addEventListener('click', () => upgradeBackdrop.classList.remove('open'));
+    upgradeBackdrop.addEventListener('click', e => { if (e.target === upgradeBackdrop) upgradeBackdrop.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') upgradeBackdrop.classList.remove('open'); });
+  </script>
+</body>
+</html>

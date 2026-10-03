@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherrytree – Compensation &amp; Expenses</title>
+  <link rel="stylesheet" href="../surveystyles.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="../cherries.png" alt="Cherrytree" />
+    </div>
+
+    <div class="company-name">Company</div>
+    <div class="progress-label">50% Complete</div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:50%"></div></div>
+    <div class="sections-remaining">4 sections remaining</div>
+
+    <div class="nav-section-label">Sections</div>
+    <ul class="nav-list">
+      <li class="done"><span class="nav-dot done"></span><a href="survey.html">Formation &amp; Purpose</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="cofounder.html">Cofounder Info</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="../equity-calculator/final-eqc3.html">Equity Allocation</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="vesting.html">Vesting Schedule</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="decision.html">Decision-Making</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="ip.html">IP &amp; Ownership</a></li>
+      <li class="active"><span class="nav-dot active"></span><a href="compensation.html">Compensation</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="performance.html">Performance</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="noncompete.html">Non-Competition</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="general.html">General Provisions</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="review.html">Review &amp; Approve</a></li>
+    </ul>
+    <div class="sidebar-section-divider"></div>
+    <ul class="nav-list nav-list-locked">
+      <li><span class="nav-dot notstarted"></span><a href="final-agreement.html">Final Agreement</a></li>
+    </ul>
+    <div class="sidebar-upgrade">
+      <button class="sidebar-upgrade-btn" id="upgrade-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span>Upgrade to Pro</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="upgrade-backdrop" id="upgrade-backdrop">
+    <div class="upgrade-modal">
+      <div class="upgrade-modal-header">
+        <div>
+          <div class="upgrade-modal-title">Upgrade Your Plan</div>
+          <div class="upgrade-modal-sub">Choose the plan that's right for your team.</div>
+        </div>
+        <button class="upgrade-close" id="upgrade-close">×</button>
+      </div>
+      <div class="upgrade-plans">
+        <div class="upgrade-plan current">
+          <div class="upgrade-plan-badge current-badge">Current plan</div>
+          <div class="upgrade-plan-tier">Starter</div>
+          <div class="upgrade-plan-price">$200</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <ul class="upgrade-features">
+            <li>Expert-designed guided survey</li>
+            <li>Comprehensive agreements</li>
+            <li>Proprietary equity calculator</li>
+            <li>Best practices and tips</li>
+            <li>Up to 5 collaborators</li>
+          </ul>
+        </div>
+        <div class="upgrade-plan pro">
+          <div class="upgrade-plan-badge pro-badge">Coming Soon</div>
+          <div class="upgrade-plan-tier">Pro</div>
+          <div class="upgrade-plan-price">$2,000</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <div class="upgrade-waitlist-label">Join the waitlist</div>
+          <div class="upgrade-waitlist-row">
+            <input class="upgrade-waitlist-input" type="email" placeholder="your@email.com" />
+            <button class="upgrade-waitlist-btn">Join</button>
+          </div>
+          <ul class="upgrade-features" style="margin-top:18px;">
+            <li>Everything in Starter, plus</li>
+            <li>Final attorney review</li>
+            <li>Cofounder coaching</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="top-left">
+        <a class="back-link" href="ip.html">Back</a>
+        <span class="saved-label">Saved 2 min ago</span>
+      </div>
+      <div class="avatar-wrap" id="avatar-wrap">
+        <div class="avatar" id="avatar-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="profile-dropdown" id="profile-dropdown">
+          <div class="profile-email">name@startup.co</div>
+          <div class="profile-divider"></div>
+          <button class="profile-item">Account</button>
+          <button class="profile-item" id="profile-billing-btn">Billing</button>
+          <button class="profile-item profile-signout" id="profile-signout-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="page-title">Compensation &amp; Expenses</h1>
+    <p class="page-desc">Money issues cause more divorce than infidelity and incompatibility. It'd be naive to think cofounderships are immune. Don't wait until someone is frustrated over uneven pay or unclear expenses. Agree on how money flows now and keep communication transparent to avoid costly fallout.</p>
+
+    <!-- Card 1: Taking salary -->
+    <div class="question-card expanded">
+      <div class="card-row">
+        <div class="card-question">Are any cofounders currently taking compensation or salary from the company?</div>
+        <span class="card-answer-preview"></span>
+      </div>
+      <div class="card-bottom"><div class="card-bottom-inner">
+        <div class="card-radio-group">
+          <label class="card-radio-option"><input type="radio" name="comp-salary" value="Yes" /><span class="radio-circle"></span>Yes</label>
+          <label class="card-radio-option"><input type="radio" name="comp-salary" value="No" /><span class="radio-circle"></span>No</label>
+        </div>
+
+        <!-- Compensation details panel — shown when Yes -->
+        <div class="comp-panel" id="comp-panel">
+          <div class="comp-panel-header">
+            <span class="comp-panel-title">Compensation Details</span>
+            <button class="comp-add-btn" id="comp-add-btn" type="button">+ Add Compensation</button>
+          </div>
+          <div class="comp-entries" id="comp-entries">
+            <div class="comp-empty" id="comp-empty">Click "Add Compensation" to add entries</div>
+          </div>
+          <div class="comp-form-wrap" id="comp-form-wrap">
+            <div class="comp-form-inner">
+              <div class="comp-form-divider"></div>
+              <div class="comp-form-grid">
+                <div>
+                  <span class="cf-field-label">Name</span>
+                  <input class="card-input" type="text" id="comp-f-name" placeholder="Cofounder name" />
+                </div>
+                <div>
+                  <span class="cf-field-label">Role / Title</span>
+                  <input class="card-input" type="text" id="comp-f-role" placeholder="CEO, CTO…" />
+                </div>
+                <div>
+                  <span class="cf-field-label">Annual Salary (USD)</span>
+                  <input class="card-input" type="text" id="comp-f-amount" placeholder="$0" />
+                </div>
+              </div>
+              <div class="comp-form-footer">
+                <button class="comp-cancel-btn" type="button" id="comp-cancel-btn">Cancel</button>
+                <button class="cf-submit-btn" type="button" id="comp-save-btn">Add Entry</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Card 2: Spending limit -->
+    <div class="question-card">
+      <div class="card-row">
+        <div class="card-question">What's the spending limit, in USD, before a cofounder needs to check with the others?</div>
+        <span class="card-answer-preview"></span>
+      </div>
+      <div class="card-bottom"><div class="card-bottom-inner">
+        <input class="card-input" type="text" inputmode="numeric" placeholder="$5000.00" data-key="comp-spending-limit" />
+      </div></div>
+    </div>
+
+    <div class="next-section-bar" id="next-section-bar">      <a class="next-section-btn" href="performance.html">Continue</a>
+    </div>
+  </main>
+
+  <script>
+    const SK = 'ct_comp_';
+    const RADIO_NAMES = ['comp-salary'];
+    const CB_NAMES    = [];
+
+    // ── Compensation entries ──
+    let compEntries = [];
+
+    function saveEntries() {
+      localStorage.setItem(SK + 'entries', JSON.stringify(compEntries));
+    }
+
+    function renderEntries() {
+      const list   = document.getElementById('comp-entries');
+      const empty  = document.getElementById('comp-empty');
+      const existing = list.querySelectorAll('.comp-entry');
+      existing.forEach(el => el.remove());
+      if (compEntries.length === 0) {
+        empty.style.display = '';
+      } else {
+        empty.style.display = 'none';
+        compEntries.forEach((entry, i) => {
+          const row = document.createElement('div');
+          row.className = 'comp-entry';
+          row.innerHTML = `
+            <span class="comp-entry-name">${entry.name}</span>
+            <span class="comp-entry-role">${entry.role}</span>
+            <span class="comp-entry-amount">${entry.amount}/yr</span>
+            <button class="comp-entry-remove" data-i="${i}" type="button">×</button>
+          `;
+          list.appendChild(row);
+        });
+        list.querySelectorAll('.comp-entry-remove').forEach(btn => {
+          btn.addEventListener('click', e => {
+            e.stopPropagation();
+            compEntries.splice(parseInt(btn.dataset.i), 1);
+            saveEntries();
+            renderEntries();
+          });
+        });
+      }
+    }
+
+    function toggleCompPanel(show) {
+      document.getElementById('comp-panel').classList.toggle('visible', show);
+    }
+
+    // Add / cancel form
+    document.getElementById('comp-add-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      document.getElementById('comp-form-wrap').classList.add('open');
+      setTimeout(() => document.getElementById('comp-f-name').focus(), 100);
+    });
+
+    document.getElementById('comp-cancel-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      document.getElementById('comp-form-wrap').classList.remove('open');
+      document.getElementById('comp-f-name').value = '';
+      document.getElementById('comp-f-role').value = '';
+      document.getElementById('comp-f-amount').value = '';
+    });
+
+    document.getElementById('comp-save-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      const name   = document.getElementById('comp-f-name').value.trim();
+      const role   = document.getElementById('comp-f-role').value.trim();
+      const amount = document.getElementById('comp-f-amount').value.trim();
+      if (!name && !amount) return;
+      compEntries.push({ name: name || '—', role: role || '—', amount: amount || '—' });
+      saveEntries();
+      renderEntries();
+      document.getElementById('comp-form-wrap').classList.remove('open');
+      document.getElementById('comp-f-name').value = '';
+      document.getElementById('comp-f-role').value = '';
+      document.getElementById('comp-f-amount').value = '';
+    });
+
+    // ── Form save / restore ──
+    function saveFormData() {
+      document.querySelectorAll('input[data-key]').forEach(el => {
+        localStorage.setItem(SK + el.dataset.key, el.value);
+      });
+      RADIO_NAMES.forEach(name => {
+        const r = document.querySelector(`input[name="${name}"]:checked`);
+        localStorage.setItem(SK + name, r ? r.value : '');
+      });
+    }
+
+    function restoreFormData() {
+      document.querySelectorAll('input[data-key]').forEach(el => {
+        el.value = localStorage.getItem(SK + el.dataset.key) || '';
+      });
+      RADIO_NAMES.forEach(name => {
+        const val = localStorage.getItem(SK + name) || '';
+        if (val) document.querySelectorAll(`input[name="${name}"]`).forEach(r => { if (r.value === val) r.checked = true; });
+      });
+      try {
+        compEntries = JSON.parse(localStorage.getItem(SK + 'entries') || '[]');
+      } catch(e) { compEntries = []; }
+      renderEntries();
+      const salaryVal = localStorage.getItem(SK + 'comp-salary') || '';
+      toggleCompPanel(salaryVal === 'Yes');
+
+      document.querySelectorAll('.question-card').forEach(updateAnswerPreview);
+      document.querySelectorAll('.question-card').forEach(c => c.classList.remove('expanded'));
+      const first = document.querySelector('.question-card:not(.answered)');
+      if (first) { first.classList.add('expanded'); }
+      else { document.getElementById('next-section-bar').classList.add('visible'); }
+    }
+
+    function advanceCard(current) {
+      updateAnswerPreview(current);
+      current.classList.remove('expanded');
+      const cards = Array.from(document.querySelectorAll('.question-card'));
+      const next = cards[cards.indexOf(current) + 1];
+      if (next) {
+        next.classList.add('expanded');
+        const inp = next.querySelector('.card-input');
+        if (inp) setTimeout(() => inp.focus(), 100);
+        setTimeout(() => next.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+      } else {
+        const bar = document.getElementById('next-section-bar');
+        bar.classList.add('visible');
+        setTimeout(() => bar.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+      }
+    }
+
+    function updateAnswerPreview(card) {
+      const preview = card.querySelector('.card-answer-preview');
+      if (!preview) return;
+      const radio = card.querySelector('input[type="radio"]:checked');
+      const text  = card.querySelector('input[data-key]');
+      let value = '';
+      if (radio) { value = radio.value; }
+      else if (text) { value = text.value.trim(); }
+      preview.textContent = value;
+      card.classList.toggle('answered', value !== '');
+      saveFormData();
+    }
+
+    document.querySelectorAll('.question-card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.tagName === 'INPUT' || e.target.closest('label') || e.target.closest('.comp-panel')) return;
+        const isExpanded = card.classList.contains('expanded');
+        document.querySelectorAll('.question-card.expanded').forEach(updateAnswerPreview);
+        document.querySelectorAll('.question-card').forEach(c => c.classList.remove('expanded'));
+        if (!isExpanded) {
+          card.classList.add('expanded');
+          const inp = card.querySelector('input[data-key]');
+          if (inp) setTimeout(() => inp.focus(), 100);
+        }
+      });
+      card.querySelectorAll('input[data-key]').forEach(inp => inp.addEventListener('input', () => updateAnswerPreview(card)));
+      card.querySelectorAll('input[type="radio"]').forEach(r => r.addEventListener('change', () => {
+        updateAnswerPreview(card);
+        if (r.name === 'comp-salary') toggleCompPanel(r.value === 'Yes');
+      }));
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      const expanded = document.querySelector('.question-card.expanded');
+      if (!expanded) return;
+      if (document.activeElement && document.activeElement.closest('.comp-panel')) return;
+      e.preventDefault();
+      advanceCard(expanded);
+    });
+
+    restoreFormData();
+  </script>
+  <script>
+    // Profile dropdown
+    const avatarBtn = document.getElementById('avatar-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    avatarBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      profileDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+    profileDropdown.addEventListener('click', e => e.stopPropagation());
+    document.getElementById('profile-billing-btn').addEventListener('click', () => {
+      profileDropdown.classList.remove('open');
+      document.getElementById('upgrade-backdrop').classList.add('open');
+    });
+    document.getElementById('profile-signout-btn').addEventListener('click', () => {
+      window.location.href = '../product/signin.html';
+    });
+  </script>
+  <script src="../sidebar.js"></script>
+  <script>
+    const upgradeBackdrop = document.getElementById('upgrade-backdrop');
+    document.getElementById('upgrade-btn').addEventListener('click', () => upgradeBackdrop.classList.add('open'));
+    document.getElementById('upgrade-close').addEventListener('click', () => upgradeBackdrop.classList.remove('open'));
+    upgradeBackdrop.addEventListener('click', e => { if (e.target === upgradeBackdrop) upgradeBackdrop.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') upgradeBackdrop.classList.remove('open'); });
+  </script>
+  <!-- AI Chat -->
+  <button class="chat-fab" id="chat-fab">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Ask AI
+  </button>
+
+  <div class="chat-panel" id="chat-panel">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="chat-ai-orb">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <span class="chat-header-name">Cherrytree AI</span>
+      </div>
+      <div class="chat-header-right">
+        <span class="chat-private-badge">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Private
+        </span>
+        <button class="chat-close-btn" id="chat-close">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg ai">
+        <div class="chat-bubble">Hi! I'm your cofounder coach. Ask me anything about your agreement, equity, or cofounder dynamics — completely private from your cofounders.</div>
+      </div>
+      <div class="chat-suggestions" id="chat-suggestions">
+        <button class="chat-suggestion">Help with this section</button>
+        <button class="chat-suggestion">Explain vesting schedules</button>
+        <button class="chat-suggestion">Cofounder conflict advice</button>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chat-input" placeholder="Ask me anything..." />
+      <button class="chat-send-btn" id="chat-send">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+      </button>
+    </div>
+  </div>
+  <script>
+    // AI Chat
+    const chatFab    = document.getElementById('chat-fab');
+    const chatPanel  = document.getElementById('chat-panel');
+    const chatClose  = document.getElementById('chat-close');
+    const chatInput  = document.getElementById('chat-input');
+    const chatSend   = document.getElementById('chat-send');
+    const chatMsgs   = document.getElementById('chat-messages');
+
+    function openChat()  { chatPanel.classList.add('open'); chatFab.classList.add('hidden'); setTimeout(() => chatInput.focus(), 220); }
+    function closeChat() { chatPanel.classList.remove('open'); chatFab.classList.remove('hidden'); }
+    chatFab.addEventListener('click', openChat);
+    chatClose.addEventListener('click', closeChat);
+
+    function appendMsg(text, role) {
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-msg ' + role;
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble';
+      bubble.textContent = text;
+      wrap.appendChild(bubble);
+      chatMsgs.appendChild(wrap);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      return wrap;
+    }
+
+    function showTyping() {
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-msg ai';
+      wrap.innerHTML = '<div class="chat-typing-bubble"><span></span><span></span><span></span></div>';
+      chatMsgs.appendChild(wrap);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      return wrap;
+    }
+
+    const aiReplies = [
+      "Great question. I can help you think through that. What aspect concerns you most?",
+      "That's a common challenge for early-stage cofounders. The key is to align early on expectations rather than assume alignment.",
+      "Based on what I know about your agreement so far, here's what I'd suggest thinking through...",
+      "I'm here to help — this is completely private and won't be shared with your cofounders.",
+    ];
+    let replyIdx = 0;
+
+    function sendMessage(text) {
+      if (!text.trim()) return;
+      const suggestions = document.getElementById('chat-suggestions');
+      if (suggestions) suggestions.remove();
+      appendMsg(text, 'user');
+      chatInput.value = '';
+      const typing = showTyping();
+      setTimeout(() => {
+        typing.remove();
+        appendMsg(aiReplies[replyIdx % aiReplies.length], 'ai');
+        replyIdx++;
+      }, 1200 + Math.random() * 600);
+    }
+
+    chatSend.addEventListener('click', () => sendMessage(chatInput.value));
+    chatInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatInput.value); } });
+    document.querySelectorAll('.chat-suggestion').forEach(btn => {
+      btn.addEventListener('click', () => sendMessage(btn.textContent));
+    });
+  </script>
+</body>
+</html>

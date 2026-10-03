@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat with AI – Cherrytree</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@200;300;400;500;600&display=swap');
+
+    body { overflow: hidden; }
+
+    /* ── Chat layout ── */
+    .chat-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background: #F6F3EE;
+    }
+
+    .chat-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px 0;
+      flex-shrink: 0;
+    }
+
+    .chat-topbar-left { display: flex; align-items: center; gap: 12px; }
+
+    .chat-ai-orb {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: #4B7263;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .chat-ai-orb svg { color: #fff; }
+
+    .chat-topbar-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px; font-weight: 400; color: #1a1a1a;
+    }
+    .chat-topbar-name em { font-style: italic; color: #4B7263; }
+
+    .chat-private-badge {
+      font-size: 11px; font-weight: 300; color: #aaa49c;
+      display: flex; align-items: center; gap: 4px;
+      padding: 5px 10px;
+      background: #EDE9E3;
+      border-radius: 50px;
+    }
+
+    /* ── Messages area ── */
+    .chat-feed {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+    .chat-feed::-webkit-scrollbar { width: 4px; }
+    .chat-feed::-webkit-scrollbar-thumb { background: #D4D0C8; border-radius: 2px; }
+
+    .chat-row {
+      display: flex;
+      padding: 0 40px;
+      max-width: 820px;
+      width: 100%;
+      align-self: center;
+      width: 100%;
+    }
+    .chat-row.user { justify-content: flex-end; }
+    .chat-row.ai   { justify-content: flex-start; }
+
+    .chat-bubble {
+      max-width: 72%;
+      padding: 13px 18px;
+      font-size: 14px; font-weight: 300; line-height: 1.68;
+    }
+    .chat-row.ai .chat-bubble {
+      background: #fff;
+      color: #1a1a1a;
+      border: 1px solid #E3DFD8;
+      border-radius: 4px 20px 20px 20px;
+    }
+    .chat-row.user .chat-bubble {
+      background: #1a1a1a;
+      color: #F6F3EE;
+      border-radius: 20px 20px 4px 20px;
+    }
+
+    /* ── Empty / welcome state ── */
+    .chat-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      gap: 28px;
+      text-align: center;
+    }
+    .chat-empty-orb {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #4B7263;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .chat-empty-orb svg { color: #fff; }
+    .chat-empty h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 28px; font-weight: 400; color: #1a1a1a;
+      line-height: 1.2;
+    }
+    .chat-empty h2 em { font-style: italic; color: #4B7263; }
+    .chat-empty p {
+      font-size: 14px; font-weight: 300; color: #6b6560;
+      line-height: 1.65; max-width: 380px;
+    }
+    .chat-prompts {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; max-width: 500px;
+    }
+    .chat-prompt-btn {
+      padding: 9px 16px;
+      background: none;
+      border: 1px solid #D4D0C8; border-radius: 50px;
+      font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 300; color: #6b6560;
+      cursor: pointer;
+      transition: background 0.14s, border-color 0.14s, color 0.14s;
+    }
+    .chat-prompt-btn:hover { background: #E3DFD8; border-color: #C4C0B8; color: #1a1a1a; }
+
+    /* ── Typing indicator ── */
+    .chat-typing-bubble {
+      background: #fff; border: 1px solid #E3DFD8;
+      border-radius: 4px 20px 20px 20px;
+      padding: 14px 18px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .chat-typing-bubble span {
+      width: 5px; height: 5px; background: #aaa49c; border-radius: 50%;
+      animation: dot 1.1s ease infinite;
+    }
+    .chat-typing-bubble span:nth-child(2) { animation-delay: 0.18s; }
+    .chat-typing-bubble span:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes dot {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
+      30% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* ── Input bar ── */
+    .chat-input-bar {
+      padding: 16px 40px 28px;
+      flex-shrink: 0;
+    }
+    .chat-input-inner {
+      max-width: 740px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      background: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 10px 10px 10px 18px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      transition: box-shadow 0.15s;
+    }
+    .chat-input-inner:focus-within {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+    .chat-textarea {
+      flex: 1; border: none; outline: none; resize: none;
+      font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 300;
+      color: #1a1a1a; background: transparent; line-height: 1.5;
+      max-height: 140px; min-height: 24px;
+    }
+    .chat-textarea::placeholder { color: #aaa49c; }
+    .chat-send-btn {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: #1a1a1a; border: none; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      transition: background 0.14s, transform 0.12s;
+    }
+    .chat-send-btn:hover { background: #2d2a22; }
+    .chat-send-btn:active { transform: scale(0.92); }
+    .chat-send-btn:disabled { opacity: 0.35; pointer-events: none; }
+    .chat-hint {
+      text-align: center; font-size: 11px; font-weight: 300; color: #aaa49c;
+      margin-top: 10px;
+    }
+
+    /* ── Sidebar active state override ── */
+    .nav-list li.chat-active a {
+      background: rgba(0,0,0,0.05);
+      color: #1a1a1a;
+      font-weight: 400;
+      border-radius: 8px;
+    }
+
+    /* ── Upgrade modal (same as dashboard) ── */
+    .upgrade-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(26,26,26,0.45);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    .upgrade-backdrop.open { opacity: 1; pointer-events: auto; }
+    .upgrade-modal {
+      background: #F6F3EE; border-radius: 20px; padding: 32px 32px 36px;
+      width: min(720px, 100%);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.28s cubic-bezier(0.16,1,0.3,1);
+    }
+    .upgrade-backdrop.open .upgrade-modal { transform: translateY(0) scale(1); }
+    .upgrade-modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; }
+    .upgrade-modal-title { font-family: 'Instrument Serif', serif; font-size: 26px; font-weight: 400; color: #1a1a1a; margin-bottom: 4px; }
+    .upgrade-modal-sub { font-size: 13px; font-weight: 300; color: #6b6560; }
+    .upgrade-close { width: 32px; height: 32px; border-radius: 50%; border: none; background: #E3DFD8; color: #6b6560; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+    .upgrade-close:hover { background: #d4d0c8; color: #1a1a1a; }
+    .upgrade-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .upgrade-plan { background: #fff; border-radius: 14px; padding: 24px; border: 1.5px solid #E3DFD8; position: relative; }
+    .upgrade-plan.current { border-color: #1a1a1a; }
+    .upgrade-plan-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); padding: 3px 12px; border-radius: 50px; font-size: 10px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; }
+    .current-badge { background: #1a1a1a; color: #fff; }
+    .pro-badge { background: #4B7263; color: #fff; }
+    .upgrade-plan-tier { font-size: 13px; font-weight: 500; color: #aaa49c; margin-bottom: 6px; }
+    .upgrade-plan-price { font-family: 'Instrument Serif', serif; font-size: 40px; font-weight: 400; color: #1a1a1a; line-height: 1; margin-bottom: 4px; }
+    .upgrade-plan-period { font-size: 12px; font-weight: 300; color: #aaa49c; }
+    .upgrade-divider { height: 1px; background: #E3DFD8; margin: 18px 0; }
+    .upgrade-features { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .upgrade-features li { font-size: 13px; font-weight: 300; color: #1a1a1a; display: flex; align-items: center; gap: 8px; }
+    .upgrade-features li::before { content: '✓'; font-size: 10px; color: #4B7263; font-weight: 600; }
+    .upgrade-waitlist-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #aaa49c; margin-bottom: 8px; }
+    .upgrade-waitlist-row { display: flex; gap: 8px; }
+    .upgrade-waitlist-input { flex: 1; padding: 9px 12px; border: 1.5px solid #E3DFD8; border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 300; color: #1a1a1a; background: #F6F3EE; outline: none; transition: border-color 0.15s; }
+    .upgrade-waitlist-input:focus { border-color: #1a1a1a; }
+    .upgrade-waitlist-btn { padding: 9px 16px; background: #1a1a1a; color: #fff; border: none; border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 13px; cursor: pointer; transition: background 0.15s; }
+    .upgrade-waitlist-btn:hover { background: #2d2a22; }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="../cherries.png" alt="Cherrytree" />
+    </div>
+    <nav class="nav-group">
+      <div class="nav-label">Platform</div>
+      <ul class="nav-list">
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="#">Recent Documents</a></li>
+        <li class="chat-active"><a href="chat.html">Chat with AI</a></li>
+        <li><a href="#" id="billing-link">Billing</a></li>
+      </ul>
+    </nav>
+    <nav class="nav-group-2">
+      <div class="nav-label">Resources</div>
+      <ul class="nav-list">
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="chat-main">
+    <div class="chat-topbar">
+      <div class="chat-topbar-left">
+        <div class="chat-ai-orb">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <span class="chat-topbar-name">Cherrytree <em>AI</em></span>
+      </div>
+      <span class="chat-private-badge">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Private — not shared with cofounders
+      </span>
+    </div>
+
+    <!-- Feed -->
+    <div class="chat-feed" id="chat-feed">
+      <div class="chat-empty" id="chat-empty">
+        <div class="chat-empty-orb">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div>
+          <h2>Your cofounder <em>coach.</em></h2>
+        </div>
+        <p>Ask anything about your agreement, equity splits, vesting, cofounder dynamics, or just get a second opinion. Everything here is private.</p>
+        <div class="chat-prompts">
+          <button class="chat-prompt-btn">Help me think through our equity split</button>
+          <button class="chat-prompt-btn">What should our vesting schedule look like?</button>
+          <button class="chat-prompt-btn">We're having a cofounder conflict</button>
+          <button class="chat-prompt-btn">Explain IP assignment</button>
+          <button class="chat-prompt-btn">What questions should I be asking?</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-bar">
+      <div class="chat-input-inner">
+        <textarea class="chat-textarea" id="chat-textarea" placeholder="Ask me anything..." rows="1"></textarea>
+        <button class="chat-send-btn" id="chat-send">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        </button>
+      </div>
+      <p class="chat-hint">Responses are AI-generated and for guidance only — not legal advice.</p>
+    </div>
+  </main>
+
+  <!-- Upgrade modal -->
+  <div class="upgrade-backdrop" id="upgrade-backdrop">
+    <div class="upgrade-modal">
+      <div class="upgrade-modal-header">
+        <div>
+          <div class="upgrade-modal-title">Upgrade Your Plan</div>
+          <div class="upgrade-modal-sub">Choose the plan that's right for your team.</div>
+        </div>
+        <button class="upgrade-close" id="upgrade-close">×</button>
+      </div>
+      <div class="upgrade-plans">
+        <div class="upgrade-plan current">
+          <div class="upgrade-plan-badge current-badge">Current plan</div>
+          <div class="upgrade-plan-tier">Starter</div>
+          <div class="upgrade-plan-price">$200</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <ul class="upgrade-features">
+            <li>Expert-designed guided survey</li>
+            <li>Comprehensive agreements</li>
+            <li>Proprietary equity calculator</li>
+            <li>Best practices and tips</li>
+            <li>Up to 5 collaborators</li>
+          </ul>
+        </div>
+        <div class="upgrade-plan pro">
+          <div class="upgrade-plan-badge pro-badge">Coming Soon</div>
+          <div class="upgrade-plan-tier">Pro</div>
+          <div class="upgrade-plan-price">$2,000</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <div class="upgrade-waitlist-label">Join the waitlist</div>
+          <div class="upgrade-waitlist-row">
+            <input class="upgrade-waitlist-input" type="email" placeholder="your@email.com" />
+            <button class="upgrade-waitlist-btn">Join</button>
+          </div>
+          <ul class="upgrade-features" style="margin-top:18px;">
+            <li>Everything in Starter, plus</li>
+            <li>Final attorney review</li>
+            <li>Cofounder coaching</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const feed     = document.getElementById('chat-feed');
+    const empty    = document.getElementById('chat-empty');
+    const textarea = document.getElementById('chat-textarea');
+    const sendBtn  = document.getElementById('chat-send');
+
+    // Auto-grow textarea
+    textarea.addEventListener('input', () => {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 140) + 'px';
+    });
+
+    function appendRow(text, role) {
+      if (empty) empty.style.display = 'none';
+      const row = document.createElement('div');
+      row.className = 'chat-row ' + role;
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble';
+      bubble.textContent = text;
+      row.appendChild(bubble);
+      feed.appendChild(row);
+      feed.scrollTop = feed.scrollHeight;
+      return row;
+    }
+
+    function showTyping() {
+      if (empty) empty.style.display = 'none';
+      const row = document.createElement('div');
+      row.className = 'chat-row ai';
+      row.innerHTML = '<div class="chat-typing-bubble"><span></span><span></span><span></span></div>';
+      feed.appendChild(row);
+      feed.scrollTop = feed.scrollHeight;
+      return row;
+    }
+
+    const aiReplies = [
+      "Great question. Let me help you think through this carefully. What aspect of your situation concerns you most?",
+      "That's one of the most common challenges early-stage cofounders face. The key is to align explicitly on expectations early rather than assume alignment.",
+      "Based on what I know about cofounder agreements, here's how I'd approach that...",
+      "I'd suggest thinking about this from both a legal and a relationship perspective. Both matter equally.",
+      "This is worth discussing with your cofounders directly too — I can help you prepare for that conversation.",
+    ];
+    let replyIdx = 0;
+
+    function send() {
+      const text = textarea.value.trim();
+      if (!text) return;
+      appendRow(text, 'user');
+      textarea.value = '';
+      textarea.style.height = 'auto';
+      const typing = showTyping();
+      setTimeout(() => {
+        typing.remove();
+        appendRow(aiReplies[replyIdx % aiReplies.length], 'ai');
+        replyIdx++;
+      }, 1200 + Math.random() * 700);
+    }
+
+    sendBtn.addEventListener('click', send);
+    textarea.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+    });
+
+    // Prompt chips
+    document.querySelectorAll('.chat-prompt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        textarea.value = btn.textContent;
+        send();
+      });
+    });
+
+    // Upgrade modal
+    const upgradeBackdrop = document.getElementById('upgrade-backdrop');
+    document.getElementById('billing-link').addEventListener('click', e => { e.preventDefault(); upgradeBackdrop.classList.add('open'); });
+    document.getElementById('upgrade-close').addEventListener('click', () => upgradeBackdrop.classList.remove('open'));
+    upgradeBackdrop.addEventListener('click', e => { if (e.target === upgradeBackdrop) upgradeBackdrop.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') upgradeBackdrop.classList.remove('open'); });
+  </script>
+</body>
+</html>

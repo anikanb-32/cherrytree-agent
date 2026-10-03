@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get started – Cherrytree</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@200;300;400;500;600&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F6F3EE; --bg-2: #F0EDE8; --bg-3: #E3DFD8;
+      --ink: #1a1a1a; --muted: #6b6560; --faint: #aaa49c;
+      --green: #4B7263; --green-bg: #eaf1ee;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .grain-svg {
+      position: fixed; inset: 0; width: 100vw; height: 100vh;
+      z-index: 9999; pointer-events: none; opacity: 0.038;
+    }
+
+    /* ── Left panel ── */
+    .left-panel {
+      width: 420px; flex-shrink: 0;
+      background: var(--bg-3);
+      padding: 52px 48px;
+      display: flex; flex-direction: column;
+      position: relative; overflow: hidden;
+    }
+    .left-panel-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; margin-bottom: auto;
+    }
+    .left-panel-brand img { width: 26px; height: 26px; object-fit: contain; }
+    .left-panel-brand-name { font-family:'Instrument Serif',serif; font-size:18px; color:var(--ink); }
+
+    .left-panel-body { margin-bottom: auto; padding-top: 80px; }
+    .left-panel-overline {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--faint); margin-bottom: 16px;
+    }
+    .left-panel-heading {
+      font-family:'Instrument Serif',serif;
+      font-size: clamp(32px, 3vw, 42px); font-weight: 400;
+      letter-spacing: -1px; line-height: 1.12; margin-bottom: 20px;
+    }
+    .left-panel-heading em { font-style: italic; }
+    .left-panel-desc {
+      font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.7;
+    }
+
+    .left-panel-steps {
+      display: flex; flex-direction: column; gap: 18px; margin-top: 44px;
+    }
+    .left-step { display: flex; align-items: flex-start; gap: 14px; }
+    .left-step-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--ink); color: #fff; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 500; margin-top: 1px;
+    }
+    .left-step-text { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+    .left-step-text strong { color: var(--ink); font-weight: 400; }
+
+    /* Decorative notch */
+    .left-panel::after {
+      content: ''; position: absolute; bottom: 0; right: 0;
+      width: 140px; height: 140px;
+      background: var(--bg); border-radius: 100% 0 0 0;
+      pointer-events: none;
+    }
+
+    /* ── Right panel ── */
+    .right-panel {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 52px 48px;
+    }
+
+    .form-card {
+      width: 100%; max-width: 400px;
+      animation: fadeUp 0.55s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);} }
+
+    h1 {
+      font-family:'Instrument Serif',serif;
+      font-size: 30px; font-weight: 400; letter-spacing: -0.6px;
+      margin-bottom: 6px;
+    }
+    h1 em { font-style: italic; }
+    .subtitle {
+      font-size: 14px; font-weight: 300; color: var(--muted); margin-bottom: 32px;
+    }
+
+    .form { display: flex; flex-direction: column; gap: 14px; }
+
+    .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--faint);
+    }
+    .field input {
+      width: 100%; padding: 12px 14px;
+      background: #fff; border: 1px solid var(--bg-3);
+      border-radius: 10px; font-family: 'Outfit', sans-serif;
+      font-size: 14px; font-weight: 300; color: var(--ink);
+      outline: none; transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .field input::placeholder { color: var(--faint); }
+    .field input:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(26,26,26,0.06); }
+
+    .terms {
+      font-size: 12px; font-weight: 300; color: var(--faint); line-height: 1.6;
+      margin-top: 2px;
+    }
+    .terms a { color: var(--muted); text-decoration: underline; }
+
+    .btn-submit {
+      width: 100%; padding: 13px;
+      background: var(--ink); color: #fff;
+      border: none; border-radius: 10px;
+      font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 400;
+      cursor: pointer; margin-top: 4px;
+      transition: background 0.15s, transform 0.12s;
+      position: relative; overflow: hidden;
+    }
+    .btn-submit:hover { background: #2d2a22; }
+    .btn-submit:active { transform: scale(0.985); }
+    .btn-submit.loading { pointer-events: none; }
+    .btn-submit.loading span { opacity: 0; }
+    .btn-submit .spinner {
+      display: none; position: absolute; inset: 0;
+      align-items: center; justify-content: center;
+    }
+    .btn-submit.loading .spinner { display: flex; }
+    .spinner-ring {
+      width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .signin-row {
+      text-align: center; margin-top: 28px;
+      font-size: 13px; font-weight: 300; color: var(--muted);
+    }
+    .signin-row a { color: var(--ink); font-weight: 400; text-decoration: none; }
+    .signin-row a:hover { text-decoration: underline; }
+
+    .page-out {
+      position: fixed; inset: 0; background: var(--bg);
+      z-index: 9998; opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .page-out.active { opacity: 1; pointer-events: all; }
+
+    @media (max-width: 720px) {
+      body { flex-direction: column; }
+      .left-panel { width: 100%; padding: 40px 28px 48px; }
+      .left-panel-steps { display: none; }
+      .right-panel { padding: 40px 28px; }
+    }
+
+    /* Remove bottom-right quarter-circle notch on left panel */
+    .left-panel::after { display: none !important; }
+
+    /* ══ Notebook vibe ══ */
+    :root { --dot: rgba(170,160,148,0.42); }
+
+    /* Dot grid on left panel (overlaid on the warm beige bg-3) */
+    .left-panel {
+      background-image: radial-gradient(circle, var(--dot) 1.2px, transparent 1.2px);
+      background-size: 22px 22px;
+      background-color: var(--bg-3);
+    }
+
+    /* Dot grid on right panel body area */
+    .right-panel {
+      background-image: radial-gradient(circle, var(--dot) 1.2px, transparent 1.2px);
+      background-size: 22px 22px;
+      background-color: var(--bg);
+    }
+
+    /* Stacked paper shadow on the form card */
+    .form-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 48px 44px;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.05),
+        6px 10px 0 rgba(0,0,0,0.035),
+        12px 20px 0 rgba(0,0,0,0.02);
+      position: relative; overflow: hidden;
+    }
+    /* triangular dog-ear top-right */
+    .form-card::after {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 0; height: 0; border-style: solid;
+      border-width: 0 36px 36px 0;
+      border-color: transparent var(--bg) transparent transparent;
+      transition: border-width 0.45s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .form-card:hover::after { border-width: 0 54px 54px 0; }
+
+    /* Step numbers: warm beige instead of solid ink */
+    .left-step-num {
+      background: rgba(26,26,26,0.75);
+    }
+
+    /* Thin submit button */
+    .btn-submit { font-weight: 100 !important; letter-spacing: 0.04em !important; }
+  </style>
+</head>
+<body>
+
+<div class="page-out" id="page-out"></div>
+
+<!-- Left: brand + value prop -->
+<div class="left-panel">
+  <a class="left-panel-brand" href="../marketing/marketing4.html">
+    <img src="../cherries.png" alt="Cherrytree" />
+    <span class="left-panel-brand-name">Cherrytree</span>
+  </a>
+
+  <div class="left-panel-body">
+    <h2 class="left-panel-heading">Your cofounder agreement<br><em>starts here.</em></h2>
+    <p class="left-panel-desc">Answer a set of guided questions with your cofounders. We turn your answers into a legally sound agreement — no lawyers required.</p>
+
+    <div class="left-panel-steps">
+      <div class="left-step">
+        <div class="left-step-num">1</div>
+        <div class="left-step-text"><strong>Invite your cofounders</strong><br>Add them as collaborators so everyone can contribute.</div>
+      </div>
+      <div class="left-step">
+        <div class="left-step-num">2</div>
+        <div class="left-step-text"><strong>Answer together</strong><br>Work through guided questions on equity, vesting, IP, and more.</div>
+      </div>
+      <div class="left-step">
+        <div class="left-step-num">3</div>
+        <div class="left-step-text"><strong>Get your agreement</strong><br>We generate a Cofounder Agreement ready for review and signature.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Right: form -->
+<div class="right-panel">
+  <div class="form-card">
+    <h1>Create your <em>account.</em></h1>
+    <p class="subtitle">Free to start. No credit card required.</p>
+
+    <form class="form" id="signup-form" novalidate>
+      <div class="name-row">
+        <div class="field">
+          <label>First name</label>
+          <input type="text" placeholder="Alex" autocomplete="given-name" />
+        </div>
+        <div class="field">
+          <label>Last name</label>
+          <input type="text" placeholder="Chen" autocomplete="family-name" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Work email</label>
+        <input type="email" placeholder="you@startup.co" autocomplete="email" />
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input type="password" placeholder="At least 8 characters" autocomplete="new-password" />
+      </div>
+
+      <p class="terms">By creating an account you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+
+      <button class="btn-submit" type="submit" id="signup-btn">
+        <span>Create account</span>
+        <div class="spinner"><div class="spinner-ring"></div></div>
+      </button>
+    </form>
+
+    <p class="signin-row">Already have an account? <a href="signin.html">Sign in</a></p>
+  </div>
+</div>
+
+<svg class="grain-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <filter id="grain-filter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#grain-filter)"/>
+</svg>
+
+<script>
+  document.getElementById('signup-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('signup-btn');
+    btn.classList.add('loading');
+    setTimeout(() => {
+      const out = document.getElementById('page-out');
+      out.classList.add('active');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 380);
+    }, 900);
+  });
+</script>
+</body>
+</html>

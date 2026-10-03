@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherrytree – Review &amp; Approve</title>
+  <link rel="stylesheet" href="../surveystyles.css" />
+  <style>
+    /* ── Section list ── */
+    .review-section-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 0;
+    }
+    .review-section-item {
+      background: #fff;
+      border: 1px solid #E8E4DD;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .review-section-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 18px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .review-check {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .review-check.done { background: #4B7263; }
+    .review-check svg { display: block; }
+    .review-section-name {
+      font-size: 14px; font-weight: 400; color: #2d2a22;
+      flex: 1;
+    }
+    .review-edit-label {
+      font-size: 11px; font-weight: 300; color: #bbb; flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .review-section-item.open .review-edit-label { color: #4B7263; }
+    .review-section-row:hover .review-edit-label { color: #888; }
+
+    /* Expandable inline edit area */
+    .review-section-expand {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
+      border-top: 0px solid #F0EDE8;
+    }
+    .review-section-item.open .review-section-expand {
+      max-height: 500px;
+      border-top-width: 1px;
+    }
+    .review-expand-inner {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .review-field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .review-field-label {
+      font-size: 11px; font-weight: 400; color: #aaa; letter-spacing: 0.02em;
+    }
+    .review-field-input {
+      font-size: 13px; font-weight: 300; color: #2d2a22;
+      background: #F6F3EE; border: none; border-radius: 7px;
+      padding: 9px 12px; outline: none; width: 100%;
+      font-family: 'Outfit', sans-serif;
+      transition: background 0.15s;
+    }
+    .review-field-input:focus { background: #EDEAE4; }
+    .review-field-select {
+      font-size: 13px; font-weight: 300; color: #2d2a22;
+      background: #F6F3EE; border: none; border-radius: 7px;
+      padding: 9px 12px; outline: none; width: 100%;
+      font-family: 'Outfit', sans-serif; cursor: pointer;
+      appearance: none; -webkit-appearance: none;
+    }
+    .review-expand-actions {
+      display: flex; gap: 8px; margin-top: 4px;
+    }
+    .review-save-btn {
+      font-size: 12px; font-weight: 400; color: #fff;
+      background: #4B7263; border: none; border-radius: 7px;
+      padding: 7px 16px; cursor: pointer; font-family: 'Outfit', sans-serif;
+      transition: background 0.15s;
+    }
+    .review-save-btn:hover { background: #3d5e52; }
+    .review-cancel-btn {
+      font-size: 12px; font-weight: 300; color: #888;
+      background: transparent; border: none;
+      padding: 7px 10px; cursor: pointer; font-family: 'Outfit', sans-serif;
+    }
+    .review-cancel-btn:hover { color: #2d2a22; }
+
+    .review-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-top: 1px solid #F0EDE8;
+      gap: 20px;
+    }
+    .review-summary-row:first-of-type { border-top: none; }
+    .review-summary-key {
+      font-size: 12px; font-weight: 400; color: #888; min-width: 160px;
+    }
+    .review-summary-val {
+      font-size: 13px; font-weight: 300; color: #2d2a22; text-align: right; flex: 1;
+    }
+
+    /* ── Approve box (no border) ── */
+    .approve-box {
+      background: #F6F3EE;
+      border: none;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 28px;
+    }
+    .approve-box-title {
+      font-size: 15px; font-weight: 400; color: #2d2a22; margin-bottom: 6px;
+    }
+    .approve-box-sub {
+      font-size: 13px; font-weight: 300; color: #888; margin-bottom: 22px; line-height: 1.55;
+    }
+    .approve-cofounders {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .approve-cofounder-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #fff;
+      border: 1px solid #E8E4DD;
+      border-radius: 9px;
+    }
+    .approve-cofounder-name {
+      font-size: 14px; font-weight: 400; color: #2d2a22;
+    }
+    .approve-cofounder-role {
+      font-size: 12px; font-weight: 300; color: #aaa;
+    }
+    .approve-status-pill {
+      font-size: 11px; font-weight: 400; padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .approve-status-pill.pending { background: #EEEBE6; color: #999; }
+    .approve-status-pill.approved { background: #E8F4EF; color: #4B7263; }
+
+    .approve-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-approve {
+      background: #4B7263; color: #fff;
+      border: none; border-radius: 8px;
+      padding: 12px 28px; font-size: 14px; font-weight: 400;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-approve:hover { background: #3d5e52; transform: translateY(-1px); }
+    .btn-approve-secondary {
+      background: transparent; color: #888;
+      border: 1px solid #D8D4CD; border-radius: 8px;
+      padding: 12px 24px; font-size: 14px; font-weight: 300;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      text-decoration: none; display: inline-flex; align-items: center;
+    }
+    .btn-approve-secondary:hover { border-color: #aaa; color: #2d2a22; }
+    .approve-legal-note {
+      font-size: 11px; font-weight: 300; color: #bbb;
+      margin-top: 16px; line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="../cherries.png" alt="Cherrytree" />
+    </div>
+
+    <div class="company-name">Company</div>
+    <div class="progress-label">90% Complete</div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:90%"></div></div>
+    <div class="sections-remaining">1 step remaining</div>
+
+    <div class="nav-section-label">Sections</div>
+    <ul class="nav-list">
+      <li class="done"><span class="nav-dot done"></span><a href="survey.html">Formation &amp; Purpose</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="cofounder.html">Cofounder Info</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="../equity-calculator/final-eqc3.html">Equity Allocation</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="vesting.html">Vesting Schedule</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="decision.html">Decision-Making</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="ip.html">IP &amp; Ownership</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="compensation.html">Compensation</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="performance.html">Performance</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="noncompete.html">Non-Competition</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="general.html">General Provisions</a></li>
+      <li class="active"><span class="nav-dot active"></span><a href="review.html">Review &amp; Approve</a></li>
+    </ul>
+    <div class="sidebar-section-divider"></div>
+    <ul class="nav-list nav-list-locked">
+      <li><span class="nav-dot notstarted"></span><a href="final-agreement.html">Final Agreement</a></li>
+    </ul>
+    <div class="sidebar-upgrade">
+      <button class="sidebar-upgrade-btn" id="upgrade-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span>Upgrade to Pro</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="upgrade-backdrop" id="upgrade-backdrop">
+    <div class="upgrade-modal">
+      <div class="upgrade-modal-header">
+        <div>
+          <div class="upgrade-modal-title">Upgrade Your Plan</div>
+          <div class="upgrade-modal-sub">Choose the plan that's right for your team.</div>
+        </div>
+        <button class="upgrade-close" id="upgrade-close">×</button>
+      </div>
+      <div class="upgrade-plans">
+        <div class="upgrade-plan current">
+          <div class="upgrade-plan-badge current-badge">Current plan</div>
+          <div class="upgrade-plan-tier">Starter</div>
+          <div class="upgrade-plan-price">$200</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <ul class="upgrade-features">
+            <li>Expert-designed guided survey</li>
+            <li>Comprehensive agreements</li>
+            <li>Proprietary equity calculator</li>
+            <li>Best practices and tips</li>
+            <li>Up to 5 collaborators</li>
+          </ul>
+        </div>
+        <div class="upgrade-plan pro">
+          <div class="upgrade-plan-badge pro-badge">Coming Soon</div>
+          <div class="upgrade-plan-tier">Pro</div>
+          <div class="upgrade-plan-price">$2,000</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <div class="upgrade-waitlist-label">Join the waitlist</div>
+          <div class="upgrade-waitlist-row">
+            <input class="upgrade-waitlist-input" type="email" placeholder="your@email.com" />
+            <button class="upgrade-waitlist-btn">Join</button>
+          </div>
+          <ul class="upgrade-features" style="margin-top:18px;">
+            <li>Everything in Starter, plus</li>
+            <li>Final attorney review</li>
+            <li>Cofounder coaching</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="top-left">
+        <a class="back-link" href="general.html">Back</a>
+        <span class="saved-label">Saved 2 min ago</span>
+      </div>
+      <div class="avatar-wrap" id="avatar-wrap">
+        <div class="avatar" id="avatar-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="profile-dropdown" id="profile-dropdown">
+          <div class="profile-email">name@startup.co</div>
+          <div class="profile-divider"></div>
+          <button class="profile-item">Account</button>
+          <button class="profile-item" id="profile-billing-btn">Billing</button>
+          <button class="profile-item profile-signout" id="profile-signout-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="page-title">Review &amp; Approve</h1>
+    <p class="page-desc">You've made it. Take a final look at what you and your cofounders have built together, then give the green light to generate your Cofounder Agreement.</p>
+
+    <!-- Section completion checklist -->
+    <div class="question-card expanded" style="margin-bottom:24px;">
+      <div class="card-row" style="margin-bottom:18px;">
+        <div class="card-question">Sections completed</div>
+      </div>
+      <div class="review-section-list">
+
+        <!-- 1. Formation & Purpose -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">Formation &amp; Purpose</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">Company name</div><input class="review-field-input" type="text" placeholder="Company" /></div>
+            <div class="review-field-row"><div class="review-field-label">Legal structure</div><select class="review-field-select"><option>Delaware C-Corporation</option><option>LLC</option><option>S-Corporation</option><option>Partnership</option></select></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+        <!-- 2. Cofounder Info -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">Cofounder Info</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">Cofounder 1 — name</div><input class="review-field-input" type="text" placeholder="Full name" /></div>
+            <div class="review-field-row"><div class="review-field-label">Cofounder 1 — title</div><input class="review-field-input" type="text" placeholder="e.g. CEO" /></div>
+            <div class="review-field-row"><div class="review-field-label">Cofounder 2 — name</div><input class="review-field-input" type="text" placeholder="Full name" /></div>
+            <div class="review-field-row"><div class="review-field-label">Cofounder 2 — title</div><input class="review-field-input" type="text" placeholder="e.g. CTO" /></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+        <!-- 3. Equity Allocation -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">Equity Allocation</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">Cofounder 1 equity %</div><input class="review-field-input" type="text" placeholder="e.g. 50%" /></div>
+            <div class="review-field-row"><div class="review-field-label">Cofounder 2 equity %</div><input class="review-field-input" type="text" placeholder="e.g. 50%" /></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+        <!-- 4. Vesting Schedule -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">Vesting Schedule</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">Vesting period</div><select class="review-field-select"><option>4 years</option><option>3 years</option><option>2 years</option></select></div>
+            <div class="review-field-row"><div class="review-field-label">Cliff period</div><select class="review-field-select"><option>1 year</option><option>6 months</option><option>No cliff</option></select></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+        <!-- 5. Decision-Making -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">Decision-Making</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">Day-to-day decisions</div><select class="review-field-select"><option>Majority vote</option><option>Unanimous consent</option><option>CEO decides</option></select></div>
+            <div class="review-field-row"><div class="review-field-label">Major decisions</div><select class="review-field-select"><option>Unanimous written consent</option><option>Supermajority (2/3)</option><option>Majority vote</option></select></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+        <!-- 6. IP & Ownership -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">IP &amp; Ownership</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">IP assignment</div><select class="review-field-select"><option>All IP assigned to company</option><option>Pre-existing IP excluded</option></select></div>
+            <div class="review-field-row"><div class="review-field-label">Notes</div><input class="review-field-input" type="text" placeholder="Any exceptions or carve-outs" /></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+        <!-- 7. Compensation -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">Compensation</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">Salary arrangement</div><select class="review-field-select"><option>Deferred until funding</option><option>Minimal stipend now</option><option>Market rate</option><option>No salary</option></select></div>
+            <div class="review-field-row"><div class="review-field-label">Cofounder 1 annual salary</div><input class="review-field-input" type="text" placeholder="e.g. $0 deferred" /></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+        <!-- 8. Performance -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">Performance</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">Review cadence</div><select class="review-field-select"><option>Quarterly</option><option>Bi-annually</option><option>Annually</option></select></div>
+            <div class="review-field-row"><div class="review-field-label">Underperformance cure period</div><select class="review-field-select"><option>30 days</option><option>60 days</option><option>90 days</option></select></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+        <!-- 9. Non-Competition -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">Non-Competition</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">Non-compete duration after departure</div><select class="review-field-select"><option>12 months</option><option>6 months</option><option>24 months</option><option>None</option></select></div>
+            <div class="review-field-row"><div class="review-field-label">Non-solicit duration</div><select class="review-field-select"><option>12 months</option><option>6 months</option><option>24 months</option></select></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+        <!-- 10. General Provisions -->
+        <div class="review-section-item">
+          <div class="review-section-row">
+            <div class="review-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="review-section-name">General Provisions</span>
+            <span class="review-edit-label">Edit</span>
+          </div>
+          <div class="review-section-expand"><div class="review-expand-inner">
+            <div class="review-field-row"><div class="review-field-label">Governing state</div><select class="review-field-select"><option>Delaware</option><option>California</option><option>New York</option><option>Texas</option></select></div>
+            <div class="review-field-row"><div class="review-field-label">Dispute resolution</div><select class="review-field-select"><option>Mediation first, then arbitration</option><option>Binding arbitration</option><option>Litigation</option></select></div>
+            <div class="review-expand-actions"><button class="review-save-btn">Save</button><button class="review-cancel-btn">Cancel</button></div>
+          </div></div>
+        </div>
+
+      </div>
+
+      <div style="border-top: 1px solid #F0EDE8; margin: 4px 0 0; padding: 20px 0 8px;">
+        <div class="review-summary-title" style="font-size:13px; font-weight:400; color:#888; margin-bottom:14px; letter-spacing:0.02em;">Agreement Summary</div>
+        <div class="review-summary-row" style="border-top:none;">
+          <span class="review-summary-key">Company name</span>
+          <span class="review-summary-val">Company</span>
+        </div>
+        <div class="review-summary-row">
+          <span class="review-summary-key">Cofounders</span>
+          <span class="review-summary-val">—</span>
+        </div>
+        <div class="review-summary-row">
+          <span class="review-summary-key">Equity split</span>
+          <span class="review-summary-val">—</span>
+        </div>
+        <div class="review-summary-row">
+          <span class="review-summary-key">Vesting schedule</span>
+          <span class="review-summary-val">4-year with 1-year cliff</span>
+        </div>
+        <div class="review-summary-row">
+          <span class="review-summary-key">Governing state</span>
+          <span class="review-summary-val">—</span>
+        </div>
+        <div class="review-summary-row">
+          <span class="review-summary-key">Dispute resolution</span>
+          <span class="review-summary-val">Mediation first, then arbitration</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Approve block -->
+    <div class="approve-box">
+      <div class="approve-box-title">Ready to approve?</div>
+      <div class="approve-box-sub">Each cofounder must approve before the final agreement is generated. Approvals are logged and timestamped.</div>
+      <div class="approve-cofounders">
+        <div class="approve-cofounder-row">
+          <div>
+            <div class="approve-cofounder-name">You</div>
+            <div class="approve-cofounder-role">Cofounder</div>
+          </div>
+          <span class="approve-status-pill pending">Pending approval</span>
+        </div>
+        <div class="approve-cofounder-row">
+          <div>
+            <div class="approve-cofounder-name">Cofounder 2</div>
+            <div class="approve-cofounder-role">Cofounder</div>
+          </div>
+          <span class="approve-status-pill pending">Pending approval</span>
+        </div>
+      </div>
+      <div class="approve-actions">
+        <button class="btn-approve" id="approve-btn">Approve &amp; Sign</button>
+        <a class="btn-approve-secondary" href="#">Download draft PDF</a>
+      </div>
+      <p class="approve-legal-note">By clicking Approve &amp; Sign, you confirm that you have reviewed the agreement and agree to its terms. This action is recorded and cannot be undone.</p>
+    </div>
+
+  </main>
+
+  <!-- AI Chat FAB -->
+  <button class="chat-fab" id="chat-fab">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </button>
+  <div class="chat-panel" id="chat-panel">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="chat-ai-orb">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <span class="chat-header-name">Cherrytree AI</span>
+      </div>
+      <div class="chat-header-right">
+        <span class="chat-private-badge">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Private
+        </span>
+        <button class="chat-close-btn" id="chat-close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg ai">
+        <div class="chat-bubble">Ready to review? I can walk you through any part of the agreement or answer questions before you approve.</div>
+      </div>
+      <div class="chat-suggestions" id="chat-suggestions">
+        <button class="chat-suggestion">Explain the agreement</button>
+        <button class="chat-suggestion">What happens after approval?</button>
+        <button class="chat-suggestion">Can I make changes later?</button>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chat-input" placeholder="Ask me anything..." />
+      <button class="chat-send-btn" id="chat-send">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Profile dropdown
+    const avatarBtn = document.getElementById('avatar-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    avatarBtn.addEventListener('click', e => { e.stopPropagation(); profileDropdown.classList.toggle('open'); });
+    document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+    document.getElementById('profile-signout-btn').addEventListener('click', () => { window.location.href = 'signin.html'; });
+
+    // Upgrade modal
+    const upgradeBackdrop = document.getElementById('upgrade-backdrop');
+    document.getElementById('upgrade-btn').addEventListener('click', () => upgradeBackdrop.classList.add('open'));
+    document.getElementById('upgrade-close').addEventListener('click', () => upgradeBackdrop.classList.remove('open'));
+    upgradeBackdrop.addEventListener('click', e => { if (e.target === upgradeBackdrop) upgradeBackdrop.classList.remove('open'); });
+
+    // Expandable section rows
+    document.querySelectorAll('.review-section-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const item = row.closest('.review-section-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.review-section-item.open').forEach(el => el.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+    document.querySelectorAll('.review-cancel-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        btn.closest('.review-section-item').classList.remove('open');
+      });
+    });
+    document.querySelectorAll('.review-save-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        btn.closest('.review-section-item').classList.remove('open');
+      });
+    });
+
+    // Approve button
+    document.getElementById('approve-btn').addEventListener('click', () => {
+      const btn = document.getElementById('approve-btn');
+      btn.textContent = 'Approved ✓';
+      btn.style.background = '#3d5e52';
+      btn.disabled = true;
+      document.querySelector('.approve-cofounder-row .approve-status-pill').textContent = 'Approved';
+      document.querySelector('.approve-cofounder-row .approve-status-pill').classList.replace('pending', 'approved');
+    });
+
+    // AI Chat
+    const chatFab   = document.getElementById('chat-fab');
+    const chatPanel = document.getElementById('chat-panel');
+    const chatClose = document.getElementById('chat-close');
+    const chatInput = document.getElementById('chat-input');
+    const chatSend  = document.getElementById('chat-send');
+    const chatMsgs  = document.getElementById('chat-messages');
+
+    function openChat()  { chatPanel.classList.add('open'); chatFab.classList.add('hidden'); setTimeout(() => chatInput.focus(), 220); }
+    function closeChat() { chatPanel.classList.remove('open'); chatFab.classList.remove('hidden'); }
+    chatFab.addEventListener('click', openChat);
+    chatClose.addEventListener('click', closeChat);
+
+    function appendMsg(text, who) {
+      const d = document.createElement('div');
+      d.className = 'chat-msg ' + who;
+      d.innerHTML = '<div class="chat-bubble">' + text + '</div>';
+      chatMsgs.appendChild(d);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }
+    function showTyping() {
+      const d = document.createElement('div');
+      d.className = 'chat-msg ai typing-indicator';
+      d.innerHTML = '<div class="chat-bubble"><span></span><span></span><span></span></div>';
+      chatMsgs.appendChild(d);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      return d;
+    }
+    const aiReplies = [
+      "Happy to help clarify anything before you sign. What's on your mind?",
+      "Once all cofounders approve, we'll generate your final Cofounder Agreement PDF — ready to save and share.",
+      "You can always return to any section to make edits before anyone has approved.",
+      "Great question. The agreement is legally reviewed to hold up if there's ever a dispute.",
+    ];
+    let replyIdx = 0;
+    function sendMessage(text) {
+      if (!text.trim()) return;
+      const suggestions = document.getElementById('chat-suggestions');
+      if (suggestions) suggestions.remove();
+      appendMsg(text, 'user');
+      chatInput.value = '';
+      const typing = showTyping();
+      setTimeout(() => {
+        typing.remove();
+        appendMsg(aiReplies[replyIdx % aiReplies.length], 'ai');
+        replyIdx++;
+      }, 1200 + Math.random() * 600);
+    }
+    chatSend.addEventListener('click', () => sendMessage(chatInput.value));
+    chatInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatInput.value); } });
+    document.querySelectorAll('.chat-suggestion').forEach(btn => {
+      btn.addEventListener('click', () => sendMessage(btn.textContent));
+    });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { upgradeBackdrop.classList.remove('open'); closeChat(); } });
+  </script>
+  <script src="../sidebar.js"></script>
+</body>
+</html>

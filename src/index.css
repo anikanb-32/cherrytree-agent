@@ -1,0 +1,863 @@
+:root {
+  --ink: #16181c;
+  --muted: #8e9199;
+  --bg: #fdfdfc;
+  --rule: #ebebe8;
+  --bubble: #f2f1ee;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --doc: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Thin progress rule pinned to the very top of the page. */
+.progress {
+  position: fixed;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 3px;
+}
+
+.progress__fill {
+  height: 100%;
+  background: var(--ink);
+  transition: width 400ms ease;
+}
+
+.topbar {
+  flex: none;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* One tab per section; scrolls sideways if they outgrow the width. */
+.tabs {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  min-width: 0;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  padding: 6px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    color 200ms ease,
+    background 200ms ease;
+}
+
+.tab:hover:not(:disabled) {
+  color: var(--ink);
+  background: var(--bubble);
+}
+
+/* Sections you haven't reached yet aren't in the transcript to scroll to. */
+.tab:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.tab--active {
+  background: var(--bubble);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.tab__check {
+  font-size: 10.5px;
+}
+
+.topbar__meta {
+  margin: 9px 0 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* Marks the handover from one section to the next in the transcript. */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 4px 0;
+  font-size: 11.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* The conversation scrolls; the composer below it stays put. */
+/* The chat fills the width; the draft slides in over it from the right. */
+.panes {
+  position: relative;
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pane {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pane--chat {
+  flex: 1;
+}
+
+/* Dims the interview while the document is up, and gives you a large, obvious
+   place to click to get back to it. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: rgb(22 24 28 / 16%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease;
+}
+
+.scrim--on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.draft-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(560px, 92%);
+  background: #fffefb;
+  border-left: 1px solid var(--rule);
+  transform: translateX(100%);
+  transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.draft-panel--open {
+  transform: none;
+  box-shadow: -24px 0 60px rgb(22 24 28 / 10%);
+}
+
+.draft-panel__body {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.draft-panel__close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 200ms ease,
+    background 150ms ease,
+    color 150ms ease;
+}
+
+.draft-panel--open .draft-panel__close {
+  opacity: 1;
+}
+
+.draft-panel__close:hover {
+  background: var(--bubble);
+  color: var(--ink);
+}
+
+/* Tab on the left edge of the panel, so it travels with it. Closed, it names
+   what's behind it and how much of it exists; open, it's just a way back. */
+.draft-tab {
+  position: absolute;
+  left: -38px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 38px;
+  padding: 16px 0;
+  border: 1px solid var(--rule);
+  border-right: 0;
+  border-radius: 10px 0 0 10px;
+  background: #fffefb;
+  color: var(--ink);
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: -6px 0 18px rgb(22 24 28 / 5%);
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
+}
+
+.draft-tab:hover {
+  background: var(--bubble);
+  border-color: #d9d8d3;
+}
+
+.draft-tab__arrow {
+  font-size: 16px;
+  line-height: 1;
+  color: var(--muted);
+}
+
+.draft-tab__label {
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.draft-tab__count {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+/* Fills as the document does — a progress read you can see with the panel shut. */
+.draft-tab__meter {
+  width: 3px;
+  height: 46px;
+  border-radius: 3px;
+  background: var(--rule);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.draft-tab__meter-fill {
+  width: 100%;
+  background: var(--ink);
+  border-radius: 3px;
+  transition: height 400ms ease;
+}
+
+.transcript {
+  flex: 1;
+  overflow-y: auto;
+  overflow-anchor: none;
+  padding: 7vh 24px 24px;
+  /* Deliberately not `scroll-behavior: smooth` — where smooth scrolling isn't
+     implemented, it silently turns scrollTop assignments into no-ops. The
+     slide lives on the messages themselves (see App.jsx). */
+}
+
+.thread {
+  position: relative;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.msg {
+  max-width: 88%;
+  font-size: 17px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.msg--agent {
+  align-self: flex-start;
+  font-size: 30px;
+  line-height: 1.32;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  animation: rise 380ms ease both;
+}
+
+.msg--user {
+  align-self: flex-end;
+  background: var(--bubble);
+  border-radius: 16px;
+  padding: 12px 16px;
+  color: #33363c;
+  animation: rise 320ms ease both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Three-dot "agent is typing" indicator. */
+.typing {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: blink 1.1s ease-in-out infinite;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.typing span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+/* What the agent says before asking — why this matters, what usually goes
+   wrong. Sits inside the agent turn, above the question, always visible. */
+.msg__lead {
+  margin: 0 0 14px;
+  max-width: 62ch;
+  font-size: 15.5px;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: normal;
+  color: var(--muted);
+}
+
+/* Pickable answers for a question that defines `options`. Each one states its
+   own tradeoff inline — reading them shouldn't require hovering one at a time. */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: -4px;
+  animation: rise 380ms ease both;
+}
+
+.choice {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 13px 16px;
+  background: #fff;
+  color: var(--ink);
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
+}
+
+.choice:hover,
+.choice:focus-visible {
+  border-color: #c9c8c3;
+  background: #fbfaf8;
+  outline: none;
+}
+
+/* What you picked last time, shown when you step back onto the question. */
+.choice--picked {
+  border-color: var(--ink);
+  background: #fbfaf8;
+}
+
+.choice--picked .choice__value::after {
+  content: '✓';
+  margin-left: 7px;
+  font-size: 12px;
+}
+
+.choice__value {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.choice__why {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.composer-wrap {
+  flex: none;
+  padding: 8px 24px 18px;
+}
+
+.composer-row {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* The composer is a single rule, not a box — the arrows either side sit on it
+   plainly so the whole row reads as one line. */
+.composer__back {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    opacity 150ms ease,
+    color 150ms ease;
+}
+
+.composer__back:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+.composer__back:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.composer {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  transition: border-color 150ms ease;
+}
+
+.composer:focus-within {
+  border-bottom-color: var(--ink);
+}
+
+.composer__input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16.5px;
+  line-height: 1.5;
+  max-height: 168px;
+  padding: 6px 0;
+}
+
+.composer__input::placeholder {
+  color: var(--muted);
+}
+
+.composer__send {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    opacity 150ms ease,
+    color 150ms ease;
+}
+
+.composer__send:hover:not(:disabled) {
+  opacity: 0.6;
+}
+
+.composer__send:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.hint {
+  max-width: 680px;
+  margin: 10px auto 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* ---- The document ---- */
+
+/* Serif here and nowhere else: the preview should read as a different kind of
+   object from the interview that produces it. */
+.doc {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 30px 34px 44px;
+  font-family: var(--doc);
+}
+
+.doc__head {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.doc__eyebrow {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.doc__title {
+  margin: 7px 0 14px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.doc__progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.doc__bar {
+  flex: 1;
+  height: 2px;
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.doc__bar-fill {
+  height: 100%;
+  background: var(--ink);
+  transition: width 400ms ease;
+}
+
+.doc__count {
+  flex: none;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.doc__foot {
+  margin-top: 26px;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Sections dim when you're working elsewhere, so the panel always shows you
+   where in the document the conversation currently is. */
+.recitals,
+.article {
+  padding: 22px 0 6px;
+  border-bottom: 1px solid var(--rule);
+  opacity: 0.55;
+  transition: opacity 250ms ease;
+}
+
+.recitals.is-active,
+.article.is-active,
+.recitals:hover,
+.article:hover {
+  opacity: 1;
+}
+
+.recitals__title,
+.article__title {
+  margin: 0 0 14px;
+}
+
+/* A section heading is the way back into that part of the interview. */
+.section-jump {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.section-jump:hover,
+.section-jump:focus-visible {
+  color: var(--ink);
+  outline: none;
+}
+
+.article__num {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* Background is context, not a term — no numbering, lighter weight. */
+.recital {
+  margin-bottom: 13px;
+}
+
+.recital__label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.recital__value {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-family: var(--doc);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.recital__value--empty {
+  color: #c6c4bd;
+}
+
+button.recital__value:hover,
+button.recital__value:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  outline: none;
+}
+
+span.recital__value {
+  cursor: default;
+}
+
+/* ---- Clauses ---- */
+
+.clause {
+  display: block;
+  position: relative;
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-family: inherit;
+}
+
+.clause__heading {
+  display: block;
+  margin-bottom: 5px;
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.clause__num {
+  margin-right: 7px;
+  font-variant-numeric: tabular-nums;
+}
+
+.clause__text {
+  display: block;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: #4a4d54;
+}
+
+/* A clause the agent has reached is a way into the conversation drafting it. */
+.clause--open {
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.clause--open::before {
+  content: '';
+  position: absolute;
+  inset: -8px -10px;
+  border-radius: 6px;
+  background: transparent;
+  transition: background 150ms ease;
+}
+
+.clause--open:hover::before,
+.clause--open:focus-visible::before {
+  background: #f1efe9;
+}
+
+.clause--open:focus-visible {
+  outline: none;
+}
+
+.clause--open > * {
+  position: relative;
+}
+
+/* Marks where the interview currently is, so the draft tells you your place. */
+.clause--current::after {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 1px;
+  bottom: 1px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--ink);
+}
+
+.clause__revisit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.clause--open:hover .clause__revisit,
+.clause--open:focus-visible .clause__revisit {
+  opacity: 1;
+}
+
+/* ---- Slots ---- */
+
+/* What the conversation has settled, set into the clause around it. */
+.slot--filled {
+  color: var(--ink);
+  background: #f1eee4;
+  border-radius: 2px;
+  padding: 0 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* What it hasn't: a gap you can see the shape of, the way an unsigned
+   contract looks. */
+.slot--blank {
+  display: inline-block;
+  width: 8.5em;
+  max-width: 100%;
+  height: 0.85em;
+  margin-bottom: -0.1em;
+  border-bottom: 1px solid #cfcdc5;
+}
+
+.slot--fresh {
+  animation: land 1.4s ease;
+}
+
+@keyframes land {
+  0% {
+    background: #dce8de;
+  }
+  100% {
+    background: #f1eee4;
+  }
+}

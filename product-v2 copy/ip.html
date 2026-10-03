@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherrytree – IP &amp; Ownership</title>
+  <link rel="stylesheet" href="../surveystyles.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="../cherries.png" alt="Cherrytree" />
+    </div>
+
+    <div class="company-name">Company</div>
+    <div class="progress-label">40% Complete</div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:40%"></div></div>
+    <div class="sections-remaining">5 sections remaining</div>
+
+    <div class="nav-section-label">Sections</div>
+    <ul class="nav-list">
+      <li class="done"><span class="nav-dot done"></span><a href="survey.html">Formation &amp; Purpose</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="cofounder.html">Cofounder Info</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="../equity-calculator/final-eqc3.html">Equity Allocation</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="vesting.html">Vesting Schedule</a></li>
+      <li class="done"><span class="nav-dot done"></span><a href="decision.html">Decision-Making</a></li>
+      <li class="active"><span class="nav-dot active"></span><a href="ip.html">IP &amp; Ownership</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="compensation.html">Compensation</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="performance.html">Performance</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="noncompete.html">Non-Competition</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="general.html">General Provisions</a></li>
+      <li><span class="nav-dot notstarted"></span><a href="review.html">Review &amp; Approve</a></li>
+    </ul>
+    <div class="sidebar-section-divider"></div>
+    <ul class="nav-list nav-list-locked">
+      <li><span class="nav-dot notstarted"></span><a href="final-agreement.html">Final Agreement</a></li>
+    </ul>
+    <div class="sidebar-upgrade">
+      <button class="sidebar-upgrade-btn" id="upgrade-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span>Upgrade to Pro</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="upgrade-backdrop" id="upgrade-backdrop">
+    <div class="upgrade-modal">
+      <div class="upgrade-modal-header">
+        <div>
+          <div class="upgrade-modal-title">Upgrade Your Plan</div>
+          <div class="upgrade-modal-sub">Choose the plan that's right for your team.</div>
+        </div>
+        <button class="upgrade-close" id="upgrade-close">×</button>
+      </div>
+      <div class="upgrade-plans">
+        <div class="upgrade-plan current">
+          <div class="upgrade-plan-badge current-badge">Current plan</div>
+          <div class="upgrade-plan-tier">Starter</div>
+          <div class="upgrade-plan-price">$200</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <ul class="upgrade-features">
+            <li>Expert-designed guided survey</li>
+            <li>Comprehensive agreements</li>
+            <li>Proprietary equity calculator</li>
+            <li>Best practices and tips</li>
+            <li>Up to 5 collaborators</li>
+          </ul>
+        </div>
+        <div class="upgrade-plan pro">
+          <div class="upgrade-plan-badge pro-badge">Coming Soon</div>
+          <div class="upgrade-plan-tier">Pro</div>
+          <div class="upgrade-plan-price">$2,000</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <div class="upgrade-waitlist-label">Join the waitlist</div>
+          <div class="upgrade-waitlist-row">
+            <input class="upgrade-waitlist-input" type="email" placeholder="your@email.com" />
+            <button class="upgrade-waitlist-btn">Join</button>
+          </div>
+          <ul class="upgrade-features" style="margin-top:18px;">
+            <li>Everything in Starter, plus</li>
+            <li>Final attorney review</li>
+            <li>Cofounder coaching</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="top-left">
+        <a class="back-link" href="decision.html">Back</a>
+        <span class="saved-label">Saved 2 min ago</span>
+      </div>
+      <div class="avatar-wrap" id="avatar-wrap">
+        <div class="avatar" id="avatar-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="profile-dropdown" id="profile-dropdown">
+          <div class="profile-email">name@startup.co</div>
+          <div class="profile-divider"></div>
+          <button class="profile-item">Account</button>
+          <button class="profile-item" id="profile-billing-btn">Billing</button>
+          <button class="profile-item profile-signout" id="profile-signout-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="page-title">IP &amp; Ownership of Work</h1>
+    <div class="page-desc">
+      <p>In 2013, Reggie Brown sued his Snapchat cofounders, Evan Spiegel and Bobby Murphy. He claimed they stole his idea: an app where messages vanish after being sent. Brown said he not only conceived the concept but also shook hands with Spiegel to serve as CMO. He claimed credit for the original name "Picaboo," the ghost logo, and even a draft patent for the disappearing-message technology.</p>
+      <p>Not long after they started, the partnership unraveled. Brown alleged he was locked out of company accounts and cut off all communication. One day a cofounder, the next day erased entirely. After a long legal battle, Snapchat settled, paying Brown $157 million.</p>
+      <p>Without being specific about IP, even college buddies can turn on each other.</p>
+    </div>
+
+    <!-- Card 1: Prior assets -->
+    <div class="question-card expanded">
+      <div class="card-row">
+        <div class="card-question">Has any cofounder created code, designs, or other assets before joining the company that might be used in the business?</div>
+        <span class="card-answer-preview"></span>
+      </div>
+      <div class="card-bottom"><div class="card-bottom-inner">
+        <div class="card-hint">Nail down ownership now, or risk ugly debates later over who really owns what once the company takes off.</div>
+        <div class="card-radio-group">
+          <label class="card-radio-option"><input type="radio" name="ip-prior-assets" value="Yes" /><span class="radio-circle"></span>Yes</label>
+          <label class="card-radio-option"><input type="radio" name="ip-prior-assets" value="No" /><span class="radio-circle"></span>No</label>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Card 2: IP assignment acknowledgment -->
+    <div class="question-card">
+      <div class="card-row">
+        <div class="card-question">Acknowledge IP assignment to the company</div>
+        <span class="card-answer-preview"></span>
+      </div>
+      <div class="card-bottom"><div class="card-bottom-inner">
+        <div class="card-hint">This assignment clause is standard in cofounder agreements and ensures the company owns what its founders build.</div>
+        <p class="card-ack-text">I acknowledge that all inventions, discoveries, designs, developments, improvements, processes, works of authorship, trade secrets, and other intellectual property conceived, created, developed, or reduced to practice by the Cofounder, either alone or with others, in the course of their work for the Company or using the Company's resources, shall be the sole and exclusive property of the Company.</p>
+        <div class="card-checkbox-group">
+          <label class="card-checkbox-option"><input type="checkbox" name="ip-ack-assignment" value="Acknowledged" /><span class="checkbox-box"></span>Anika Bhagavatula <span class="card-ack-role">(Admin)</span></label>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="next-section-bar" id="next-section-bar">      <a class="next-section-btn" href="compensation.html">Continue</a>
+    </div>
+  </main>
+
+  <script>
+    const SK = 'ct_ip_';
+    const RADIO_NAMES = ['ip-prior-assets'];
+    const CB_NAMES    = ['ip-ack-assignment'];
+
+    function saveFormData() {
+      RADIO_NAMES.forEach(name => {
+        const r = document.querySelector(`input[name="${name}"]:checked`);
+        localStorage.setItem(SK + name, r ? r.value : '');
+      });
+      CB_NAMES.forEach(name => {
+        const vals = Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
+        localStorage.setItem(SK + name, JSON.stringify(vals));
+      });
+    }
+
+    function restoreFormData() {
+      RADIO_NAMES.forEach(name => {
+        const val = localStorage.getItem(SK + name) || '';
+        if (val) document.querySelectorAll(`input[name="${name}"]`).forEach(r => { if (r.value === val) r.checked = true; });
+      });
+      CB_NAMES.forEach(name => {
+        try {
+          const vals = JSON.parse(localStorage.getItem(SK + name) || '[]');
+          vals.forEach(v => { const cb = document.querySelector(`input[name="${name}"][value="${v}"]`); if (cb) cb.checked = true; });
+        } catch(e) {}
+      });
+      document.querySelectorAll('.question-card').forEach(updateAnswerPreview);
+      document.querySelectorAll('.question-card').forEach(c => c.classList.remove('expanded'));
+      const first = document.querySelector('.question-card:not(.answered)');
+      if (first) { first.classList.add('expanded'); }
+      else { document.getElementById('next-section-bar').classList.add('visible'); }
+    }
+
+    function advanceCard(current) {
+      updateAnswerPreview(current);
+      current.classList.remove('expanded');
+      const cards = Array.from(document.querySelectorAll('.question-card'));
+      const next = cards[cards.indexOf(current) + 1];
+      if (next) {
+        next.classList.add('expanded');
+        setTimeout(() => next.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+      } else {
+        const bar = document.getElementById('next-section-bar');
+        bar.classList.add('visible');
+        setTimeout(() => bar.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+      }
+    }
+
+    function updateAnswerPreview(card) {
+      const preview = card.querySelector('.card-answer-preview');
+      if (!preview) return;
+      const radio   = card.querySelector('input[type="radio"]:checked');
+      const checked = card.querySelectorAll('input[type="checkbox"]:checked');
+      let value = '';
+      if (radio) {
+        value = radio.value;
+      } else if (checked.length) {
+        const vals = Array.from(checked).map(cb => cb.value);
+        value = vals.length <= 2 ? vals.join(', ') : vals[0] + ` +${vals.length - 1} more`;
+      }
+      preview.textContent = value;
+      card.classList.toggle('answered', value !== '');
+      saveFormData();
+    }
+
+    document.querySelectorAll('.question-card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.tagName === 'INPUT' || e.target.closest('label')) return;
+        const isExpanded = card.classList.contains('expanded');
+        document.querySelectorAll('.question-card.expanded').forEach(updateAnswerPreview);
+        document.querySelectorAll('.question-card').forEach(c => c.classList.remove('expanded'));
+        if (!isExpanded) card.classList.add('expanded');
+      });
+      card.querySelectorAll('input[type="radio"]').forEach(r => r.addEventListener('change', () => updateAnswerPreview(card)));
+      card.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', () => updateAnswerPreview(card)));
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      const expanded = document.querySelector('.question-card.expanded');
+      if (!expanded) return;
+      e.preventDefault();
+      advanceCard(expanded);
+    });
+
+    restoreFormData();
+  </script>
+  <script>
+    // Profile dropdown
+    const avatarBtn = document.getElementById('avatar-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    avatarBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      profileDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', () => profileDropdown.classList.remove('open'));
+    profileDropdown.addEventListener('click', e => e.stopPropagation());
+    document.getElementById('profile-billing-btn').addEventListener('click', () => {
+      profileDropdown.classList.remove('open');
+      document.getElementById('upgrade-backdrop').classList.add('open');
+    });
+    document.getElementById('profile-signout-btn').addEventListener('click', () => {
+      window.location.href = '../product/signin.html';
+    });
+  </script>
+  <script src="../sidebar.js"></script>
+  <script>
+    const upgradeBackdrop = document.getElementById('upgrade-backdrop');
+    document.getElementById('upgrade-btn').addEventListener('click', () => upgradeBackdrop.classList.add('open'));
+    document.getElementById('upgrade-close').addEventListener('click', () => upgradeBackdrop.classList.remove('open'));
+    upgradeBackdrop.addEventListener('click', e => { if (e.target === upgradeBackdrop) upgradeBackdrop.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') upgradeBackdrop.classList.remove('open'); });
+  </script>
+  <!-- AI Chat -->
+  <button class="chat-fab" id="chat-fab">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Ask AI
+  </button>
+
+  <div class="chat-panel" id="chat-panel">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="chat-ai-orb">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <span class="chat-header-name">Cherrytree AI</span>
+      </div>
+      <div class="chat-header-right">
+        <span class="chat-private-badge">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Private
+        </span>
+        <button class="chat-close-btn" id="chat-close">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg ai">
+        <div class="chat-bubble">Hi! I'm your cofounder coach. Ask me anything about your agreement, equity, or cofounder dynamics — completely private from your cofounders.</div>
+      </div>
+      <div class="chat-suggestions" id="chat-suggestions">
+        <button class="chat-suggestion">Help with this section</button>
+        <button class="chat-suggestion">Explain vesting schedules</button>
+        <button class="chat-suggestion">Cofounder conflict advice</button>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chat-input" placeholder="Ask me anything..." />
+      <button class="chat-send-btn" id="chat-send">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+      </button>
+    </div>
+  </div>
+  <script>
+    // AI Chat
+    const chatFab    = document.getElementById('chat-fab');
+    const chatPanel  = document.getElementById('chat-panel');
+    const chatClose  = document.getElementById('chat-close');
+    const chatInput  = document.getElementById('chat-input');
+    const chatSend   = document.getElementById('chat-send');
+    const chatMsgs   = document.getElementById('chat-messages');
+
+    function openChat()  { chatPanel.classList.add('open'); chatFab.classList.add('hidden'); setTimeout(() => chatInput.focus(), 220); }
+    function closeChat() { chatPanel.classList.remove('open'); chatFab.classList.remove('hidden'); }
+    chatFab.addEventListener('click', openChat);
+    chatClose.addEventListener('click', closeChat);
+
+    function appendMsg(text, role) {
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-msg ' + role;
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble';
+      bubble.textContent = text;
+      wrap.appendChild(bubble);
+      chatMsgs.appendChild(wrap);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      return wrap;
+    }
+
+    function showTyping() {
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-msg ai';
+      wrap.innerHTML = '<div class="chat-typing-bubble"><span></span><span></span><span></span></div>';
+      chatMsgs.appendChild(wrap);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      return wrap;
+    }
+
+    const aiReplies = [
+      "Great question. I can help you think through that. What aspect concerns you most?",
+      "That's a common challenge for early-stage cofounders. The key is to align early on expectations rather than assume alignment.",
+      "Based on what I know about your agreement so far, here's what I'd suggest thinking through...",
+      "I'm here to help — this is completely private and won't be shared with your cofounders.",
+    ];
+    let replyIdx = 0;
+
+    function sendMessage(text) {
+      if (!text.trim()) return;
+      const suggestions = document.getElementById('chat-suggestions');
+      if (suggestions) suggestions.remove();
+      appendMsg(text, 'user');
+      chatInput.value = '';
+      const typing = showTyping();
+      setTimeout(() => {
+        typing.remove();
+        appendMsg(aiReplies[replyIdx % aiReplies.length], 'ai');
+        replyIdx++;
+      }, 1200 + Math.random() * 600);
+    }
+
+    chatSend.addEventListener('click', () => sendMessage(chatInput.value));
+    chatInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatInput.value); } });
+    document.querySelectorAll('.chat-suggestion').forEach(btn => {
+      btn.addEventListener('click', () => sendMessage(btn.textContent));
+    });
+  </script>
+</body>
+</html>

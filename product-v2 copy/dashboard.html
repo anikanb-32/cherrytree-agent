@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherrytree – Dashboard</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="../cherries.png" alt="Cherrytree" />
+    </div>
+
+    <nav class="nav-group">
+      <div class="nav-label">Platform</div>
+      <ul class="nav-list">
+        <li class="active"><a href="#">Dashboard</a></li>
+        <li><a href="#">Recent Documents</a></li>
+        <li><a href="chat.html">Chat with AI</a></li>
+        <li><a href="#">Billing</a></li>
+      </ul>
+    </nav>
+
+    <nav class="nav-group-2">
+      <div class="nav-label">Resources</div>
+      <ul class="nav-list">
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="avatar-wrap" id="avatar-wrap" style="position:relative;">
+        <div class="avatar" id="avatar-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div id="profile-dropdown" style="
+          position:absolute; top:calc(100% + 8px); right:0; width:200px;
+          background:#F6F3EE; border:1px solid #E3DFD8; border-radius:12px;
+          box-shadow:0 8px 32px rgba(0,0,0,0.12); padding:6px;
+          opacity:0; pointer-events:none;
+          transform:translateY(-6px) scale(0.97); transform-origin:top right;
+          transition:opacity 0.18s ease, transform 0.18s cubic-bezier(0.16,1,0.3,1);
+          z-index:200; font-family:'Outfit',sans-serif;">
+          <div style="font-size:11px;font-weight:300;color:#aaa49c;padding:6px 10px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">name@startup.co</div>
+          <div style="height:1px;background:#E3DFD8;margin:4px 0;"></div>
+          <button onclick="window.location='#'" style="display:block;width:100%;padding:8px 10px;background:none;border:none;border-radius:7px;font-family:inherit;font-size:13px;font-weight:300;color:#1a1a1a;text-align:left;cursor:pointer;" onmouseover="this.style.background='#EDE9E3'" onmouseout="this.style.background='none'">Account</button>
+          <button id="profile-billing-btn" style="display:block;width:100%;padding:8px 10px;background:none;border:none;border-radius:7px;font-family:inherit;font-size:13px;font-weight:300;color:#1a1a1a;text-align:left;cursor:pointer;" onmouseover="this.style.background='#EDE9E3'" onmouseout="this.style.background='none'">Billing</button>
+          <button id="profile-signout-btn" style="display:block;width:100%;padding:8px 10px;background:none;border:none;border-radius:7px;font-family:inherit;font-size:13px;font-weight:300;color:#b94040;text-align:left;cursor:pointer;" onmouseover="this.style.background='#fdf2f2'" onmouseout="this.style.background='none'">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="welcome">Welcome back, <em>Name</em>.</h1>
+    <p class="welcome-sub">Great companies start with great company. Let's jump back into your open agreements.</p>
+
+    <!-- Existing agreement -->
+    <div class="agreement-card">
+      <div class="card-inner">
+        <div class="card-left">
+          <div class="card-type">Cofounder Agreement</div>
+          <div class="card-company">My Company</div>
+          <div class="card-tags">
+            <span class="card-tag">Cofounder A</span>
+            <span class="card-tag">Cofounder B</span>
+          </div>
+          <div class="card-meta">
+            <div class="card-meta-item">
+              <!-- Clock -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 3" stroke-linecap="round"/>
+              </svg>
+              Edited 5 days ago
+            </div>
+            <div class="card-meta-item">
+              <!-- Sections -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M4 6h16M4 12h10M4 18h7" stroke-linecap="round"/>
+              </svg>
+              3 out of 10 sections
+            </div>
+            <div class="card-meta-item">
+              <!-- Trend -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 17l5-5 4 4 9-9" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Complete by June 12, 2026
+            </div>
+          </div>
+        </div>
+        <div class="card-right">
+          <div class="card-percent-box">
+            <div class="card-percent">25%</div>
+            <div class="card-percent-label">Completed</div>
+          </div>
+          <button class="card-continue-btn">Continue</button>
+        </div>
+      </div>
+      <div class="card-progress-bar">
+        <div class="card-progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Create new -->
+    <div class="create-card">
+      <div class="create-card-text">
+        <div class="create-title">Create a new agreement</div>
+        <div class="create-sub">One document per company.</div>
+      </div>
+      <button class="create-btn">+</button>
+    </div>
+
+  </main>
+
+  <!-- ── Upgrade modal ── -->
+  <div class="upgrade-backdrop" id="upgrade-backdrop">
+    <div class="upgrade-modal">
+      <div class="upgrade-modal-header">
+        <div>
+          <div class="upgrade-modal-title">Upgrade Your Plan</div>
+          <div class="upgrade-modal-sub">Choose the plan that's right for your team.</div>
+        </div>
+        <button class="upgrade-close" id="upgrade-close">×</button>
+      </div>
+
+      <div class="upgrade-plans">
+        <!-- Starter -->
+        <div class="upgrade-plan current">
+          <div class="upgrade-plan-badge current-badge">Current plan</div>
+          <div class="upgrade-plan-tier">Starter</div>
+          <div class="upgrade-plan-price">$200</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <ul class="upgrade-features">
+            <li>Expert-designed guided survey</li>
+            <li>Comprehensive agreements</li>
+            <li>Proprietary equity calculator</li>
+            <li>Best practices and tips</li>
+            <li>Up to 5 collaborators</li>
+          </ul>
+        </div>
+
+        <!-- Pro -->
+        <div class="upgrade-plan pro">
+          <div class="upgrade-plan-badge pro-badge">Coming Soon</div>
+          <div class="upgrade-plan-tier">Pro</div>
+          <div class="upgrade-plan-price">$2,000</div>
+          <div class="upgrade-plan-period">One-time payment</div>
+          <div class="upgrade-divider"></div>
+          <div class="upgrade-waitlist-label">Join the waitlist</div>
+          <div class="upgrade-waitlist-row">
+            <input class="upgrade-waitlist-input" type="email" placeholder="your@email.com" />
+            <button class="upgrade-waitlist-btn">Join</button>
+          </div>
+          <ul class="upgrade-features" style="margin-top:18px;">
+            <li>Everything in Starter, plus</li>
+            <li>Final attorney review</li>
+            <li>Cofounder coaching</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* ── Upgrade modal styles ── */
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@200;300;400;500;600&display=swap');
+
+    .upgrade-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(26,26,26,0.45);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    .upgrade-backdrop.open { opacity: 1; pointer-events: auto; }
+
+    .upgrade-modal {
+      background: #F6F3EE;
+      border-radius: 20px;
+      padding: 32px 32px 36px;
+      width: min(720px, 100%);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.28s cubic-bezier(0.16,1,0.3,1);
+    }
+    .upgrade-backdrop.open .upgrade-modal { transform: translateY(0) scale(1); }
+
+    .upgrade-modal-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .upgrade-modal-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 26px; font-weight: 400; letter-spacing: -0.5px; color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .upgrade-modal-sub { font-size: 13px; font-weight: 300; color: #6b6560; }
+
+    .upgrade-close {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: none; background: #E3DFD8; color: #6b6560;
+      font-size: 18px; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s; line-height: 1;
+      margin-top: 2px;
+    }
+    .upgrade-close:hover { background: #d4d0c8; color: #1a1a1a; }
+
+    .upgrade-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .upgrade-plan {
+      background: #fff; border-radius: 14px; padding: 24px;
+      border: 1.5px solid #E3DFD8; position: relative;
+    }
+    .upgrade-plan.current { border-color: #1a1a1a; }
+    .upgrade-plan.pro { border-color: #E3DFD8; }
+
+    .upgrade-plan-badge {
+      position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+      padding: 3px 12px; border-radius: 50px; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.04em; white-space: nowrap;
+    }
+    .current-badge { background: #1a1a1a; color: #fff; }
+    .pro-badge { background: #4B7263; color: #fff; }
+
+    .upgrade-plan-tier { font-size: 13px; font-weight: 500; color: #aaa49c; margin-bottom: 6px; }
+    .upgrade-plan-price {
+      font-family: 'Instrument Serif', serif;
+      font-size: 40px; font-weight: 400; letter-spacing: -1.5px; color: #1a1a1a;
+      line-height: 1; margin-bottom: 4px;
+    }
+    .upgrade-plan-period { font-size: 12px; font-weight: 300; color: #aaa49c; }
+
+    .upgrade-divider { height: 1px; background: #E3DFD8; margin: 18px 0; }
+
+    .upgrade-features { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .upgrade-features li {
+      font-size: 13px; font-weight: 300; color: #1a1a1a;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .upgrade-features li::before {
+      content: '✓'; font-size: 10px; color: #4B7263;
+      font-weight: 600; flex-shrink: 0;
+    }
+
+    .upgrade-waitlist-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #aaa49c; margin-bottom: 8px; }
+    .upgrade-waitlist-row { display: flex; gap: 8px; }
+    .upgrade-waitlist-input {
+      flex: 1; padding: 9px 12px; border: 1.5px solid #E3DFD8; border-radius: 8px;
+      font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 300; color: #1a1a1a;
+      background: #F6F3EE; outline: none;
+      transition: border-color 0.15s;
+    }
+    .upgrade-waitlist-input::placeholder { color: #aaa49c; }
+    .upgrade-waitlist-input:focus { border-color: #1a1a1a; }
+    .upgrade-waitlist-btn {
+      padding: 9px 16px; background: #1a1a1a; color: #fff;
+      border: none; border-radius: 8px; font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 400; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .upgrade-waitlist-btn:hover { background: #2d2a22; }
+  </style>
+
+  <script src="../interactions.js"></script>
+  <script>
+    // Profile dropdown
+    const avatarBtn = document.getElementById('avatar-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    avatarBtn.addEventListener('click', e => { e.stopPropagation(); profileDropdown.style.opacity = profileDropdown.style.opacity === '1' ? '0' : '1'; profileDropdown.style.pointerEvents = profileDropdown.style.opacity === '1' ? 'auto' : 'none'; profileDropdown.style.transform = profileDropdown.style.opacity === '1' ? 'translateY(0) scale(1)' : 'translateY(-6px) scale(0.97)'; });
+    document.addEventListener('click', () => { profileDropdown.style.opacity = '0'; profileDropdown.style.pointerEvents = 'none'; profileDropdown.style.transform = 'translateY(-6px) scale(0.97)'; });
+    profileDropdown.addEventListener('click', e => e.stopPropagation());
+    document.getElementById('profile-signout-btn').addEventListener('click', () => { window.location.href = 'signin.html'; });
+    document.getElementById('profile-billing-btn').addEventListener('click', () => { profileDropdown.style.opacity = '0'; profileDropdown.style.pointerEvents = 'none'; document.getElementById('upgrade-backdrop').classList.add('open'); });
+
+    // Upgrade modal
+    const upgradeBackdrop = document.getElementById('upgrade-backdrop');
+    const upgradeClose = document.getElementById('upgrade-close');
+
+    function openUpgrade() {
+      upgradeBackdrop.classList.add('open');
+    }
+    function closeUpgrade() {
+      upgradeBackdrop.classList.remove('open');
+    }
+
+    // Trigger from Billing nav item
+    document.querySelectorAll('.nav-list li a').forEach(link => {
+      if (link.textContent.trim() === 'Billing') {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          openUpgrade();
+        });
+      }
+    });
+
+    upgradeClose.addEventListener('click', closeUpgrade);
+    upgradeBackdrop.addEventListener('click', (e) => {
+      if (e.target === upgradeBackdrop) closeUpgrade();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeUpgrade();
+    });
+  </script>
+</body>
+</html>
